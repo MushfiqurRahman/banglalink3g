@@ -10,6 +10,10 @@ class SurveysController extends AppController {
     public function dashboard(){
         
     }
+    
+    public function report(){
+        
+    }
 
 /**
  * index method

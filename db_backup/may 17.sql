@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: May 17, 2014 at 12:06 PM
+-- Generation Time: May 17, 2014 at 05:43 PM
 -- Server version: 5.1.33
 -- PHP Version: 5.2.9
 
@@ -46,28 +46,13 @@ CREATE TABLE IF NOT EXISTS `areas` (
 CREATE TABLE IF NOT EXISTS `locations` (
   `id` int(4) NOT NULL AUTO_INCREMENT,
   `area_id` int(3) NOT NULL,
+  `team_id` int(4) NOT NULL,
   `title` varchar(256) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
 -- Dumping data for table `locations`
---
-
-
--- --------------------------------------------------------
-
---
--- Table structure for table `locations_teams`
---
-
-CREATE TABLE IF NOT EXISTS `locations_teams` (
-  `location_id` int(11) NOT NULL,
-  `team_id` int(11) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `locations_teams`
 --
 
 
@@ -82,12 +67,14 @@ CREATE TABLE IF NOT EXISTS `mobile_brands` (
   `title` varchar(128) NOT NULL,
   `descr` varchar(256) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `mobile_brands`
 --
 
+INSERT INTO `mobile_brands` (`id`, `title`, `descr`) VALUES
+(1, 'Google', 'Google Smart Phone series');
 
 -- --------------------------------------------------------
 
@@ -99,12 +86,14 @@ CREATE TABLE IF NOT EXISTS `occupations` (
   `id` int(3) NOT NULL AUTO_INCREMENT,
   `title` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `occupations`
 --
 
+INSERT INTO `occupations` (`id`, `title`) VALUES
+(1, 'Student');
 
 -- --------------------------------------------------------
 
@@ -117,12 +106,14 @@ CREATE TABLE IF NOT EXISTS `packages` (
   `title` varchar(128) NOT NULL,
   `descr` tinytext,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `packages`
 --
 
+INSERT INTO `packages` (`id`, `title`, `descr`) VALUES
+(1, '10MB', 'Daily Pack');
 
 -- --------------------------------------------------------
 
@@ -135,13 +126,16 @@ CREATE TABLE IF NOT EXISTS `promoters` (
   `team_id` int(4) NOT NULL,
   `name` varchar(40) NOT NULL,
   `code` varchar(20) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `code` (`code`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `promoters`
 --
 
+INSERT INTO `promoters` (`id`, `team_id`, `name`, `code`) VALUES
+(1, 1, 'First Promoter', 'bp_001');
 
 -- --------------------------------------------------------
 
@@ -198,12 +192,14 @@ CREATE TABLE IF NOT EXISTS `teams` (
   `id` int(4) NOT NULL AUTO_INCREMENT,
   `name` varchar(60) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `teams`
 --
 
+INSERT INTO `teams` (`id`, `name`) VALUES
+(1, 'Test Team');
 
 -- --------------------------------------------------------
 
@@ -218,10 +214,14 @@ CREATE TABLE IF NOT EXISTS `users` (
   `password` varchar(50) NOT NULL,
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `email` (`email`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `users`
 --
 
+INSERT INTO `users` (`id`, `name`, `email`, `password`, `created`, `modified`) VALUES
+(2, 'Mushfiqur Rahman', 'mushfique@codetrio.com', '3d2541b50cb7be0bcd8060c3af8ecfec8c8d73e5', '2014-05-18 02:08:27', '2014-05-18 06:21:38'),
+(3, 'Imran Khan', 'imran@ihover.com', '8b9abc626b0c5052f191545d8201b80dec9f84ea', '2014-05-18 02:56:49', '2014-05-18 02:56:49');

@@ -74,11 +74,11 @@
 				<ul class="nav">
 
 					<!-- Main Navigation: Dashboard -->
-					<li class="active"><a href="index.html"><i class="icon-align-justify"></i> Dashboard</a></li>
+					<li class="active"><a href="<?php echo Configure::read('base_url').'/surveys/dashboard';?>"><i class="icon-align-justify"></i> Dashboard</a></li>
 					<!-- / Main Navigation: Dashboard -->
 					
 					<!-- Main Navigation: Report -->
-					<li class="dropdown"><a href="report.html">	<i class="icon-table"></i> All Report </a></li>
+					<li class="dropdown"><a href="<?php echo Configure::read('base_url').'/surveys/report';?>">	<i class="icon-table"></i> All Report </a></li>
 					<!-- / Main Navigation: Report -->
 					
 					<!-- Main Navigation: Update/Refresh  Report -->
