@@ -6,6 +6,10 @@ App::uses('AppController', 'Controller');
  * @property Survey $Survey
  */
 class SurveysController extends AppController {
+    
+    public function dashboard(){
+        
+    }
 
 /**
  * index method

@@ -7,6 +7,8 @@
 		echo $this->Form->input('name');
 		echo $this->Form->input('email');
 		echo $this->Form->input('password');
+                echo $this->Form->input('retype_password', 
+                        array('type' => 'password', 'required' => true));
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit')); ?>

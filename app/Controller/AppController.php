@@ -36,19 +36,17 @@ class AppController extends Controller {
     
     
     var $components = array('Session', 'Auth' => array(
-        //'loginRedirect' => array('controller' => 'users', 'action' => 'index'),
-        'loginRedirect' => array('controller' => 'surveys', 'action' => 'index'),
+        'loginRedirect' => array('controller' => 'surveys', 'action' => 'dashboard'),
         'logoutRedirect' => array('controller' => 'users', 'action' => 'login')
     ));
     
     var $loggedinUser = array();
     
     public function beforeFilter() {
-        parent::beforeFilter();
+        parent::beforeFilter();       
         
         $this->Auth->authenticate = array(
-            //AuthComponent::ALL => array('userModel' => 'User', 'scope' => array('User.status' => 1), 'contain' => array('Role')),
-            AuthComponent::ALL => array('userModel' => 'User', 'contain' => array('Role')),
+            AuthComponent::ALL => array('userModel' => 'User'),
             'Form' => array('fields' => array('username' => 'email'))
         );
         $this->loggedinUser = $this->Auth->user();

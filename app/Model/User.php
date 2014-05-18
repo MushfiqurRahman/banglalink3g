@@ -46,6 +46,10 @@ class User extends AppModel {
 				//'last' => false, // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
+                        'isUnique' => array(
+                            'rule'    => 'isUnique',
+                            'message' => 'This email has already been taken.'
+                        )
 		),
 		'password' => array(
 			'notempty' => array(
@@ -66,10 +70,7 @@ class User extends AppModel {
                 unset($this->data['User']['retype_password']);
                 
                 App::import('Component', 'Auth');
-                $tempAuth = new AuthComponent();
-                $this->data['User']['password'] = $tempAuth->password($this->data['User']['password']);
-                
-//                $this->log(print_r($this->data, true),'error');exit;
+                $this->data['User']['password'] = AuthComponent::password($this->data['User']['password']);
                 return true;
             }
             return false;

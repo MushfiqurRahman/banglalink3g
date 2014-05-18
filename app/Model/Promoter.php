@@ -58,6 +58,10 @@ class Promoter extends AppModel {
 				//'last' => false, // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
+                    'isUnique' => array(
+                        'rule'    => 'isUnique',
+                        'message' => 'This username has already been taken.'
+                    )
 		),
 	);
 

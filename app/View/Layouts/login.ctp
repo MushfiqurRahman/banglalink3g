@@ -17,57 +17,37 @@
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
-$cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework');
+
 ?>
 <!DOCTYPE html>
 <html>
 <head>
 	<?php echo $this->Html->charset(); ?>
-	<title>
-		<?php echo $cakeDescription ?>:
-		<?php echo $title_for_layout; ?>
-	</title>
+	<title>AvocadoPanel</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="">
 	<?php
-		echo $this->Html->meta('icon');
+		echo $this->Html->meta('favicon');
 
-		echo $this->Html->css('cake.generic');
+		//echo $this->Html->css('cake.generic');
+                echo $this->Html->css(array('bootstrap.min',
+                    'bootstrap-responsive'));
 
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
 		echo $this->fetch('script');
 	?>
+  
 </head>
-<body>
+<body style="padding-top:120px;">
+    
+    <div id="content">
 
-     <div class="container">  
+            <?php echo $this->Session->flash(); ?>
 
-        <form class="form-signin form-horizontal">
-        <div class="top-bar">
-          <h3><i class="icon-leaf"></i> Avocado<b>Panel</b></h3>
-        </div>
-        <div class="well no-padding">
-
-          <div class="control-group">
-            <label class="control-label" for="inputName"><i class="icon-user"></i></label>
-            <div class="controls">
-              <input type="text" id="inputName" placeholder="Username">
-            </div>
-          </div>
-          <div class="control-group">
-            <label class="control-label" for="inputUsername"><i class="icon-key"></i></label>
-            <div class="controls">
-              <input type="password" id="inputUsername" placeholder="Password">
-            </div>
-          </div>
-
-        <div class="padding">
-          <button class="btn btn-primary" type="submit">Sign in</button>
-          <button class="btn" type="submit">Forgot Password</button>
-          </div>
-        </div>
-      </form>
-
-    </div> 
+            <?php echo $this->fetch('content'); ?>
+    </div>
 
 </body>
 </html>

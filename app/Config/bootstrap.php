@@ -107,3 +107,5 @@ CakeLog::config('error', array(
 	'types' => array('warning', 'error', 'critical', 'alert', 'emergency'),
 	'file' => 'error',
 ));
+
+Configure::write('base_url', 'http://localhost/2014/banglalink3g');

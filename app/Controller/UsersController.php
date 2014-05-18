@@ -9,24 +9,18 @@ class UsersController extends AppController {
     
         public function beforeFilter() {
             parent::beforeFilter();
-            $this->Auth->allow(array('add'));
+            //$this->Auth->allow(array('login'));
         }
         
         public function login(){
             $this->layout = 'login';
             $this->set('title_for_layout', "Login");
-            if( $this->request->is('post') && !empty($this->data) ){//pr($this->data);
-
-                //if ($this->Auth->login($this->request->data['User'])) {
+            if( $this->request->is('post') && !empty($this->data) ){
                 if ($this->Auth->login()) {
-                    
-                    //var_dump($this->Auth->redirect());exit;
                     return $this->redirect($this->Auth->redirect());
-                } else {
+                } else {                    
                     $this->Session->setFlash(__('Username or password is incorrect'), 'default', array(), 'auth');
                 }
-            
-		} else if (empty($this->request->data)) {
             }
         }
         
@@ -97,6 +91,8 @@ class UsersController extends AppController {
 		} else {
 			$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
 			$this->request->data = $this->User->find('first', $options);
+                        
+                        unset($this->request->data['User']['password']);
 		}
 	}
 
