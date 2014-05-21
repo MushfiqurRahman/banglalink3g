@@ -170,4 +170,25 @@ class Survey extends AppModel {
 			'order' => ''
 		)
 	);
+        
+        /**
+         * 
+         * @param type $data
+         * @return boolean
+         */
+        public function saveSurvey($data){
+            $survey['Survey'] = array();
+            
+            foreach( $data as $k => $v){
+                $survey['Survey'][$k] = $v;
+            }
+            if( $this->save($survey) ){
+                $response['message'] = 'Experience has been saved';
+                $response['success'] = true;
+            }else{
+                $response['message'] = 'Save Failed! Please try agaiin.';
+                $response['success'] = false;
+            }
+            return $response;
+        }
 }
