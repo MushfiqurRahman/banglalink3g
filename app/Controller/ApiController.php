@@ -16,8 +16,6 @@ class ApiController extends AppController {
     
 //    var $menuItemCounter = array();
     var $counter = array();
-    //for testing purpose
-    var $isJson = 1;
     
     public function beforeFilter() {
         parent::beforeFilter();
@@ -39,10 +37,6 @@ class ApiController extends AppController {
      */
     public function fetch_all_data(){
         $this->layout = $this->autoRender = false;
-        $this->loadModel('Area');
-        $this->Area->Behaviors->load('Containable');
-        $this->frontEndMenus = $this->Area->FrontEndMenu->find('list', array('fields' => array('id','menu_code')));
-        
         $this->_initialize_counter();
         
         $this->_get_areas();
@@ -52,13 +46,9 @@ class ApiController extends AppController {
         $this->_get_packages();
         $this->_get_mobile_brands();       
         
-        $this->_count_total_data();
-        
-        if( $isJson==0 ){
-            pr($this->dataForMobileApp);
-        }else{
-            echo json_encode($this->dataForMobileApp);
-        }
+//        $this->_count_total_data();
+//        pr($this->dataForMobileApp);        
+        echo json_encode($this->dataForMobileApp);
     }
     
     /**
@@ -97,18 +87,18 @@ class ApiController extends AppController {
     
     protected function _get_promoters(){
         $this->loadModel('Promoter');
-        $promoters = $this->Promoter->find('all', array('recursive' => -1));
+        $promoters = $this->Promoter->find('all', array('recursive' => 0));
         foreach($promoters as $prm){  
             $this->dataForMobileApp['Promoter'][ $this->counter['promoter_counter'] ]['promoter_id'] = $prm['Promoter']['id'];
             $this->dataForMobileApp['Promoter'][ $this->counter['promoter_counter'] ]['team_id'] = $prm['Promoter']['team_id'];
-            $this->dataForMobileApp['Promoter'][ $this->counter['promoter_counter'] ]['team_name'] = $prm['Promoter'][''];
+            $this->dataForMobileApp['Promoter'][ $this->counter['promoter_counter'] ]['team_name'] = $prm['Team']['name'];
             $this->dataForMobileApp['Promoter'][ $this->counter['promoter_counter'] ]['promoter_name'] = $prm['Promoter']['name'];
             $this->dataForMobileApp['Promoter'][ $this->counter['promoter_counter'] ]['code'] = $prm['Promoter']['code'];
             $this->counter['promoter_counter']++;
         }
     }  
         
-    protected function _get_occupations($menuData, $frontEndMenu = ''){
+    protected function _get_occupations(){
         $this->loadModel('Occupation');
         $occupations = $this->Occupation->find('list');
         foreach($occupations as $k => $ocp){  
