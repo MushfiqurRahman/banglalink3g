@@ -132,42 +132,37 @@
                                         </tr>
                                 </thead>
                                 <tbody class="table-bordered">
-                                        <tr class="odd gradeX">
-                                                <td>1</td>
-                                                <td>Dhaka</td>
-                                                <td>Kawran Bazar</td>
-                                                <td class="center">Team 1</td>
-                                                <td>Location 1</td>
-                                                <td>BP Name 1</td>
-                                                <td>1027</td>
-                                                <td>Shariar Hossain</td>
-                                                <td>01918828927</td>
-                                                <td>Business</td>
-                                                <td class="center">27</td>
-                                                <td class="center">Yes</td>
-                                                <td>2GB</td>
-                                                <td>Smart Phone</td>
-                                                <td>Samsung</td>
-                                                <td>2014-03-31 18:05:36</td>
+                                <?php
+                                    if(count($Surveys)>0){
+                                        $i = 1;
+                                        foreach ($Surveys as $survey){
+                                            ?>                                
+                                        <tr class="<?php echo $i%2==1? 'odd gradeX' : 'even gradeC';?>">    
+                                            <td><?php echo $survey['Survey']['id'];?></td>
+                                            <td><?php echo $survey['Location']['Area']['Region']['title'];?></td>
+                                            <td><?php echo $survey['Location']['Area']['title'];?></td>
+                                            <td class="center"><?php echo $survey['Promoter']['Team']['name'];?></td>
+                                            <td><?php echo $survey['Location']['title'];?></td>
+                                            <td><?php echo $survey['Promoter']['name'];?></td>
+                                            <td><?php echo $survey['Promoter']['code'];?></td>
+                                            <td><?php echo $survey['Survey']['name'];?></td>
+                                            <td><?php echo $survey['Survey']['mobile'];?></td>
+                                            <td><?php echo $survey['Occupation']['title'];?></td>
+                                            <td class="center"><?php echo $survey['Survey']['age'];?></td>
+                                            <td class="center"><?php echo $survey['Survey']['is_3g']==true ? 'Yes': 'No';?></td>
+                                            <td><?php echo $survey['Package']['title'];?></td>
+                                            <td><?php echo $survey['Survey']['is_smart_phone']==true? 'Smart Phone': 'Regular Phone';?></td>
+                                            <td><?php echo $survey['MobileBrand']['title'];?></td>
+                                            <td><?php echo $survey['Survey']['created'];?></td>
                                         </tr>
-                                        <tr class="even gradeC">
-                                                <td>2</td>
-                                                <td>Chittagong</td>
-                                                <td>Bohoddar Hat</td>
-                                                <td class="center">Team 3</td>
-                                                <td>Location 2</td>
-                                                <td>BP Name 34</td>
-                                                <td>1055</td>
-                                                <td>Kabir Hossain</td>
-                                                <td>01918348953</td>
-                                                <td>Student</td>
-                                                <td class="center">22</td>
-                                                <td class="center">No</td>
-                                                <td>50MB</td>
-                                                <td>Smart Phone</td>
-                                                <td>Nokia</td>
-                                                <td>2014-03-31 14:05:36</td>
+                                <?php                                
+                                        }
+                                    }else {
+                                        
+                                    }
+                                ?>              
                                         </tr>
+                                        
                                 </tbody>
                         </table>
                         </div>

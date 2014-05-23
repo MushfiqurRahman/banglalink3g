@@ -16,14 +16,14 @@ class SurveysController extends AppController {
 
         $this->paginate = array(
             //'fields' => array('id','outlet_id','date_time'),
-            //'contain' => $this->Survey->get_contain_array(),
+            'contain' => $this->Survey->get_contain_array(),
             //'conditions' => $this->Survey->set_conditions($this->request->query),
             'order' => array('Survey.created' => 'DESC'),
             'limit' => 20,
         );
         $Surveys = $this->paginate();
         //pr($Surveys);exit;
-        $this->set('surveys', $Surveys);
+        $this->set('Surveys', $Surveys);
         if( !empty($this->request->query)){
             $this->set('data',$this->request->query);
         }

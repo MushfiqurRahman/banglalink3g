@@ -191,4 +191,32 @@ class Survey extends AppModel {
             }
             return $response;
         }
+        
+        public function get_contain_array(){
+            return array(
+                'Location' => array(
+                    'fields' => array('id','title'),
+                    'Area' => array(
+                        'fields' => array('id', 'title'),
+                        'Region' => array(
+                            'fields' => array('title'),
+                        )
+                    )
+                ),
+                'Promoter' => array(
+                    'fields' => array('id', 'team_id','name', 'code'),
+                    'Team' => array(
+                        'fields' => array('id','name'),
+                    )
+                ),
+                'Occupation' => array(
+                    'fields' => array('title'),
+                ),
+                'MobileBrand' => array(
+                    'fields' => array('title'),
+                ),
+                'Package' => array(
+                    'fields' => array('title')
+                ));
+        }
 }
