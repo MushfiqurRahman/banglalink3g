@@ -97,4 +97,17 @@ class AreasController extends AppController {
 		$this->Session->setFlash(__('Area was not deleted'));
 		$this->redirect(array('action' => 'index'));
 	}
+        
+        /**
+         * 
+         */	
+	public function ajax_area_list(){
+		$this->autoRender = $this->layout = false;
+                if( isset($_POST['region_id']) && !empty($_POST['region_id']) ){
+                    $conditions = array('Area.region_id' => $_POST['region_id']);
+                    $areas = $this->Area->find('list', array('conditions' => $conditions));
+                    echo json_encode($areas);
+                }
+                return;
+	}
 }

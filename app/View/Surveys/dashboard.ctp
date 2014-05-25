@@ -24,39 +24,33 @@
                                         <div class="control-group">
                                         <label class="control-label">Select Region</label>
                                         <div class="controls">
-                                                <select class="span6 m-wrap" data-placeholder="Choose a Category" tabindex="1">
-                                                        <option value="">Select...</option>
-                                                        <option value="Region 1">Region 1</option>
-                                                        <option value="Region 2">Region 2</option>
-                                                        <option value="Region 3">Region 3</option>
-                                                        <option value="Region 4">Region 4</option>
-                                                </select>
+                                            <?php echo $this->Form->input('region_id', array(
+                                                'type' => 'select', 'options' => $regions, 
+                                                'class' => 'span6 m-wrap', 'id' => 'regionId',
+                                                'empty'  => 'All Region', 'label' => false));?>
+
                                         </div>
                                         </div>
 
                                         <div class="control-group">
                                         <label class="control-label">Select Area</label>
                                         <div class="controls">
-                                                <select class="span6 m-wrap" data-placeholder="Choose a Category" tabindex="1">
-                                                        <option value="">Select...</option>
-                                                        <option value="Area 1">Area 1</option>
-                                                        <option value="Area 2">Area 2</option>
-                                                        <option value="Area 3">Area 3</option>
-                                                        <option value="Area 4">Area 4</option>
-                                                </select>
+                                            <?php echo $this->Form->input('area_id', array(
+                                                'type' => 'select', 'options' => array(), 
+                                                'class' => 'span6 m-wrap', 'id' => 'areaId',
+                                                'empty'  => 'All Area', 'label' => false));?>
+
                                         </div>
                                         </div>
 
                                         <div class="control-group">
                                         <label class="control-label">Select Team</label>
                                         <div class="controls">
-                                                <select class="span6 m-wrap" data-placeholder="Choose a Category" tabindex="1">
-                                                        <option value="">Select...</option>
-                                                        <option value="Team 1">Team 1</option>
-                                                        <option value="Team 2">Team 2</option>
-                                                        <option value="Team 3">Team 3</option>
-                                                        <option value="Team 4">Team 4</option>
-                                                </select>
+                                            <?php echo $this->Form->input('location_id', array(
+                                                'type' => 'select', 'options' => array(), 
+                                                'class' => 'span6 m-wrap', 'id' => 'locationId',
+                                                'empty'  => 'All Location', 'label' => false));?>
+
                                         </div>
                                         </div>
 
@@ -99,3 +93,55 @@
 
 </div>
 <!-- / Drop downs and Pie -->
+
+<script>
+    
+    
+	var base_url = '<?php echo Configure::read('base_url');?>';
+        alert(base_url);
+	$(document).ready(function(){		
+            alert("Working");
+		$("#regionId").change(function(e){
+			find_areas( $(this).val());
+		});
+                
+                $("#areaId").change(function(){                    
+                    find_locations( $(this).val());	
+                });
+		
+		function find_areas( regionId ){                    
+			$.ajax({
+				url: base_url+'areas/ajax_area_list',
+				type: 'post',
+				data: 'region_id='+regionId,
+				success: function(response){					
+					var areas = $.parseJSON(response);
+					
+                                        $("#areaId").html('<select name="data[Area][id]" id="areaId"><option value="">All Area</option></select>');
+                                        $("#locationId").html('<select name="data[Location][id]" id="locationId"><option value="">All Location</option></select>');
+					$.each(areas, function(ind,val){ 
+                                            alert(val);
+						$('#areaId').append('<option value="'+ind+'">'+val+'</option>');						
+					});
+				}
+			});
+		}
+                
+                function find_locations( areaId){                   
+                    $.ajax({
+                            url: base_url+'locations/ajax_location_list',
+                            type: 'post',
+                            data: 'area_id='+areaId,
+                            success: function(response){                                
+                                    var locations = $.parseJSON(response);
+                                    
+                                    $("#locationId").html('<select name="data[Location][id]" id="locationId"><option value="">All Location</option></select>');
+                                    $.each(locations, function(ind,val){
+                                        
+                                            $('#locationId').append('<option value="'+ind+'">'+val+'</option>');						
+                                    });
+                            }
+                    });                
+                }
+	});
+</script>

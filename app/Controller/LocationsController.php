@@ -99,4 +99,18 @@ class LocationsController extends AppController {
 		$this->Session->setFlash(__('Location was not deleted'));
 		$this->redirect(array('action' => 'index'));
 	}
+        
+        /**
+         * In the dashboard page it's essential
+         * @return type
+         */
+        public function ajax_location_list(){
+            $this->autoRender = $this->layout = false;            
+            if( isset($_POST['area_id']) && !empty($_POST['area_id']) && $_POST['area_id'] != 'All' ){
+                $conditions = array('area_id' => $_POST['area_id']);
+                $locations = $this->Location->find('list', array('conditions' => $conditions));
+                echo json_encode($locations);
+            }
+            return;            
+        }
 }

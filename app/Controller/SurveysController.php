@@ -7,7 +7,19 @@ App::uses('AppController', 'Controller');
  */
 class SurveysController extends AppController {
     
+    public function beforeFilter() {
+        parent::beforeFilter();
+        $this->set('totalFb', $this->Survey->getTotalFb());
+        $this->set('pack3gUser', $this->Survey->parcent3gPackUser());
+        $this->set('smartPhoneUser', $this->Survey->parcentSmartPhoneUser());
+        $this->set('todayFbTotal', $this->Survey->getTodaysFbTotal());
+    }
+    
     public function dashboard(){
+        $this->loadModel('Region');
+        $this->set('regions', $this->Region->find('list'));
+//        $this->set('areas', $this->Region->Area->find('list'));
+//        $this->set('locations', $this->Region->Area->Location->find('list'));
         
     }
     

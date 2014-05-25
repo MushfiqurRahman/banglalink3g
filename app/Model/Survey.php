@@ -219,4 +219,44 @@ class Survey extends AppModel {
                     'fields' => array('title')
                 ));
         }
+        
+        public function getTotalFb(){
+            return $this->find('count');
+        }
+        
+        public function parcent3gPackUser(){
+            $total = $this->getTotalFb();
+            if( $total>0 ){
+                $total3GUser = $this->find('count', array('conditions' => array(
+                    'Survey.is_3g' => 1
+                )));
+                $this->log(print_r($total3GUser, true), 'error');
+                $parcent = (100*$total3GUser)/$total;
+                return $parcent;
+            }else{
+                return 0;
+            }
+        }
+        
+        public function parcentSmartPhoneUser(){
+            $total = $this->getTotalFb();
+            if( $total>0 ){
+                $totalSmartPhoneUser = $this->find('count', array('conditions' => array(
+                    'Survey.is_smart_phone' => 1
+                )));
+                $this->log(print_r($totalSmartPhoneUser, true), 'error');
+                $parcent = (100*$totalSmartPhoneUser)/$total;
+                return $parcent;
+            }else{
+                return 0;
+            }
+        }
+        
+        public function getTodaysFbTotal(){            
+            $todaysTotal = $this->find('count', array('conditions' => array(
+                'DATE(Survey.date_time)' => date('Y-m-d',time())
+            )));
+            $this->log(print_r($todaysTotal, true), 'error');
+            return $todaysTotal;
+        }
 }
