@@ -171,6 +171,32 @@ class Survey extends AppModel {
 		)
 	);
         
+        protected function _getTeamId($promoterId){
+            App::import('Model', 'Promoter');
+            $Promoter = new Promoter();
+            
+            return $Promoter->field('team_id', array('conditions' => array(
+                'Promoter.id' => $promoterId
+            )));            
+        }
+        
+        protected function _getAreaRegionId($locationId){
+            $response = array();
+            App::import('Model', 'Location');
+            $Location = new Location();
+            $response['area_id'] = $Location->field('area_id', array('conditions' => array(
+                'Location.id' => $locationId
+            )));
+            
+            $response['region_id'] = $Location->Area->field('region_id', array('conditions' => array(
+                'Area.id' => $response['area_id']
+            )));
+        }
+        
+//        protected function _getRegionId($locationId){
+//            App::import('Model', )
+//        }
+        
         /**
          * 
          * @param type $data
@@ -181,6 +207,15 @@ class Survey extends AppModel {
             
             foreach( $data as $k => $v){
                 $survey['Survey'][$k] = $v;
+                
+                if( $k=='location_id'){
+                    $areaRegion = $this->_getAreaRegionId($v);
+                    $survey['Survey']['area_id'] = $areaRegion['area_id'];
+                    $survey['Survey']['region_id'] = $areaRegion['region_id'];
+                }
+                if( $k=='promoter_id' ){
+                    $survey['Survey']['team_id'] = $this->_getTeamId($v);
+                }
             }
             if( $this->save($survey) ){
                 $response['message'] = 'Experience has been saved';
@@ -218,6 +253,51 @@ class Survey extends AppModel {
                 'Package' => array(
                     'fields' => array('title')
                 ));
+        }
+        
+        /**
+         *
+         * @return type 
+         */
+        //public function set_conditions( $surveyIds = null, $data = array(), $is_feedback = false ){
+        public function set_conditions( $locationIds = null, $data = array()){
+            
+            $conditions = array();
+            
+//            if( $surveyIds ){
+//                $conditions[]['Survey.id'] = $surveyIds;                
+//            }else{
+//                $conditions[]['Survey.id'] = 0;
+//            }
+            
+            if( $locationIds ){
+                $conditions[]['Survey.location_id'] = $locationIds;                
+            }
+            
+            if( isset($data['start_date']) && !empty($data['start_date']) ){
+                $conditions[]['DATE(Survey.created) >='] = $data['start_date'];
+            }
+            if( isset($data['end_date']) && !empty($data['end_date']) ){
+                $conditions[]['DATE(Survey.created) <='] = $data['end_date'];
+            }
+            
+            if( isset($data['occupation_id']) && !empty($data['occupation_id']) ){
+                $conditions[]['Survey.occupation_id'] = $data['occupation_id'];
+            }
+            if( isset($data['age_limit']) && !empty($data['age_limit']) ){
+                $limits = $this->_get_limits($data['age_limit']);
+                $conditions[]['age >='] = $limits['lower'];
+                if( isset($limits['upper']) ){
+                    $conditions[]['age <='] = $limits['upper'];
+                }                
+            }            
+            if( isset($data['is_3g']) && !empty($data['is_3g']) ){
+                $conditions[]['Survey.is_3g'] = $data['is_3g'];
+            }
+            if( isset($data['is_smart_phone']) && !empty($data['is_smart_phone']) ){
+                $conditions[]['Survey.is_smart_phone'] = $data['is_smart_phone'];
+            }
+            return $conditions;
         }
         
         public function getTotalFb(){

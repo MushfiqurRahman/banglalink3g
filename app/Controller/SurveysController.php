@@ -18,18 +18,19 @@ class SurveysController extends AppController {
     public function dashboard(){
         $this->loadModel('Region');
         $this->set('regions', $this->Region->find('list'));
-//        $this->set('areas', $this->Region->Area->find('list'));
-//        $this->set('locations', $this->Region->Area->Location->find('list'));
-        
     }
     
     public function report(){
+                //pr($this->request->params);exit;
+        
+        $locationsIds = $this->Survey->Location->getLocationIds($this->request->data['Survey']);
+        
         $this->Survey->Behaviors->load('Containable');
 
         $this->paginate = array(
             //'fields' => array('id','outlet_id','date_time'),
             'contain' => $this->Survey->get_contain_array(),
-            //'conditions' => $this->Survey->set_conditions($this->request->query),
+            'conditions' => $this->Survey->set_conditions($locationsIds, $this->request->data),
             'order' => array('Survey.created' => 'DESC'),
             'limit' => 20,
         );
