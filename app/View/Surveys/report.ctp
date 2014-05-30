@@ -15,28 +15,43 @@
                 <div class="well">
 
                 <!-- Forms: Form -->
-                    <form class="form-horizontal">
+<!--                    <form class="form-horizontal">-->
+                        <?php 
+                            echo $this->Form->create('Survey', array(
+                                'type' => 'post',
+                                'action' => 'report'
+                            ));
+                        ?>
 
 
                         <div class="control-group">
                             <label class="control-label">Select Location</label>
                             <div class="controls">
-                                    <select class="span6 m-wrap" data-placeholder="Choose a Category" tabindex="1">
+                                <?php
+                                    echo $this->Form->input('location_id', array(
+                                        'type' => 'select',
+                                        'options' => array('1' => 'Loc1'),
+                                        'class' => 'span6 m-wrap',
+                                        'empty' => 'Select Location',
+                                        'label' => false
+                                    ));
+                                ?>
+<!--                                    <select class="span6 m-wrap" data-placeholder="Choose a Category" tabindex="1">
                                             <option value="">Select...</option>
                                             <option value="Location 1">Location 1</option>
                                             <option value="Location 2">Location 2</option>
                                             <option value="Location 3">Location 3</option>
                                             <option value="Location 4">Location 4</option>
-                                    </select>
+                                    </select>-->
                             </div>
                         </div>
 
                         <div class="control-group">
                             <label class="control-label" for="datepicker">Select Date Range</label>
                             <div class="controls">
-                                    <input type="text" id="startDate" placeholder="..." class="span3">
+                                    <input type="text" id="startDate" name="data[Survey][start_date]" placeholder="..." class="span3">
 
-                                    <input type="text" id="endDate" placeholder="..." class="span3">
+                                    <input type="text" id="endDate" name="data[Survey][end_date]" placeholder="..." class="span3">
                             </div>
                         </div>
 
@@ -44,14 +59,48 @@
                         <div class="control-group">
                             <label class="control-label" for="inputDate">Filter by</label>
                             <div class="controls">
-                                <select class="span3">
-                                        <option value="number">Select Age Group</option>
-                                        <option value="10 - 15">10 - 15</option>
-                                        <option value="15 - 20">15 - 20</option>
-                                        <option value="20 - 25">20 - 25</option>
-                                        <option value="25 - 30">25 - 30</option>
-                                        <option value="30+">30+</option>
-                                </select>
+                                <?php 
+                                    echo $this->Form->input('age', array(
+                                        'type' => 'select',
+                                        'label' => false,
+                                        'options' => array(
+                                            '10:15' => '10 - 15'
+                                        ),
+                                        'empty' => 'Select Age Group'
+                                    ));
+                                    
+                                    echo $this->Form->input('occupation_id', array(
+                                        'type' => 'select',
+                                        'options' => $occupations,
+                                        'class' => 'span6 m-wrap',
+                                        'empty' => 'Select Occupation',
+                                        'label' => false
+                                    ));
+                                    
+                                    echo $this->Form->input('is_3g', array(
+                                        'type' => 'select',
+                                        'options' => array('1' => 'Yes', '2' => 'No'),
+                                        'class' => 'span6 m-wrap',
+                                        'empty' => 'Select 3g Pack Status',
+                                        'label' => false
+                                    ));
+                                    
+                                    echo $this->Form->input('package_id', array(
+                                        'type' => 'select',
+                                        'options' => $packages,
+                                        'class' => 'span6 m-wrap',
+                                        'empty' => 'Select Package',
+                                        'label' => false
+                                    ));
+                                ?>
+<!--//                                <select class="span3">
+//                                        <option value="number">Select Age Group</option>
+//                                        <option value="10 - 15">10 - 15</option>
+//                                        <option value="15 - 20">15 - 20</option>
+//                                        <option value="20 - 25">20 - 25</option>
+//                                        <option value="25 - 30">25 - 30</option>
+//                                        <option value="30+">30+</option>
+//                                </select>
                                 <select class="span3">
                                         <option value="Month">Select Occupation</option>
                                         <option value="Service">Service</option>
@@ -70,7 +119,7 @@
                                         <option value="No">50MB</option>
                                         <option value="Yes">1GB</option>
                                         <option value="No">2GB</option>
-                                </select>
+                                </select>-->
                             </div>
                         </div>
                         <!-- / Forms: Filter Options -->
@@ -79,6 +128,8 @@
                                 <div class="form-actions">
                                         <button type="submit" class="btn btn-warning"> Submit</button>
                                         <button type="button" class="btn"> Cancel</button>
+                                        
+                                        <?php echo $this->Form->end();?>
                                         
                                 </div>
                                 <!-- / Forms: Form Actions -->

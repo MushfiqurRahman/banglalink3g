@@ -21,7 +21,7 @@ class SurveysController extends AppController {
     }
     
     public function report(){
-                //pr($this->request->params);exit;
+                pr($this->request->data);//exit;
         
         $locationsIds = $this->Survey->Location->getLocationIds($this->request->data['Survey']);
         
