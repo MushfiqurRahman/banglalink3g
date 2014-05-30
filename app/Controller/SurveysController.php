@@ -41,6 +41,48 @@ class SurveysController extends AppController {
             $this->set('data',$this->request->query);
         }
     }
+    
+    public function export_report(){
+        $this->layout = 'ajax';        
+            
+        ini_set('memory_limit', '1024M');
+        
+        if( !empty($this->request->data) ){
+            $locationsIds = $this->Survey->Location->getLocationIds($this->request->data['Survey']);            
+        }else{
+            $locationsIds = $this->Survey->Location->getLocationIds();
+        }
+//            $houseList = $this->Survey->House->house_list($this->request->data);
+//
+//            if( isset($this->request->data['House']['id']) && !empty($this->request->data['House']['id']) ){
+//                $houseIds[] = $this->request->data['House']['id'];
+//            }else{
+//                $houseIds = $this->Survey->House->id_from_list($houseList);                
+//            }
+
+//                $SurveyIds = $this->Survey->find('list',array('fields' => 'id','conditions' => 
+//                    array('Survey.campaign_id' => $this->current_campaign_detail['Campaign']['id'],
+//                        'Survey.house_id' => $houseIds)));    
+
+//            $this->Survey->unbindModel(array('belongsTo' => 
+//                array('Campaign','MoLog'),
+//                'hasOne' => array('Feedback')));
+
+        $Surveys = $this->Survey->find('all', array(
+            'fields' => array('id','location_id','area_id', 'region_id','promoter_id',
+                'team_id','name','mobile','age','occupation_id',
+                'created', 'Promoter.name','Team.name',
+                'MobileBrand.title','Occupation.title',
+                'Location.title','Location.area_id'),
+            //'conditions' => $this->Survey->set_conditions($SurveyIds, $this->request->data),
+            'conditions' => $this->Survey->set_conditions($locationsIds, $this->request->data),
+            'order' => array('Survey.created' => 'DESC'),      
+        ));                 
+        $Surveys = $this->Survey->format_for_export($Surveys);
+//        $this->log(print_r($Surveys,true),'error');
+//        print_r($Surveys);exit;
+        $this->set('surveys',$Surveys); 
+    }
 
 /**
  * index method

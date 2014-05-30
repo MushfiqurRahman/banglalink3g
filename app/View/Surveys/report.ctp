@@ -15,73 +15,75 @@
                 <div class="well">
 
                 <!-- Forms: Form -->
-                        <form class="form-horizontal">
+                    <form class="form-horizontal">
 
-                                <div class="control-group">
-                                        <label class="control-label">Select Location</label>
-                                        <div class="controls">
-                                                <select class="span6 m-wrap" data-placeholder="Choose a Category" tabindex="1">
-                                                        <option value="">Select...</option>
-                                                        <option value="Location 1">Location 1</option>
-                                                        <option value="Location 2">Location 2</option>
-                                                        <option value="Location 3">Location 3</option>
-                                                        <option value="Location 4">Location 4</option>
-                                                </select>
-                                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label">Select Location</label>
+                            <div class="controls">
+                                    <select class="span6 m-wrap" data-placeholder="Choose a Category" tabindex="1">
+                                            <option value="">Select...</option>
+                                            <option value="Location 1">Location 1</option>
+                                            <option value="Location 2">Location 2</option>
+                                            <option value="Location 3">Location 3</option>
+                                            <option value="Location 4">Location 4</option>
+                                    </select>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label" for="datepicker">Select Date Range</label>
+                            <div class="controls">
+                                    <input type="text" id="startDate" placeholder="..." class="span3">
+
+                                    <input type="text" id="endDate" placeholder="..." class="span3">
+                            </div>
+                        </div>
+
+                        <!-- Forms: Form Filter Options -->
+                        <div class="control-group">
+                            <label class="control-label" for="inputDate">Filter by</label>
+                            <div class="controls">
+                                <select class="span3">
+                                        <option value="number">Select Age Group</option>
+                                        <option value="10 - 15">10 - 15</option>
+                                        <option value="15 - 20">15 - 20</option>
+                                        <option value="20 - 25">20 - 25</option>
+                                        <option value="25 - 30">25 - 30</option>
+                                        <option value="30+">30+</option>
+                                </select>
+                                <select class="span3">
+                                        <option value="Month">Select Occupation</option>
+                                        <option value="Service">Service</option>
+                                        <option value="Business">Business</option>
+                                        <option value="Student">Student</option>
+                                        <option value="Others">Others</option>
+                                </select>
+                                <select class="span3">
+                                        <option value="Year">Select 3G Pack Status</option>
+                                        <option value="Yes">Yes</option>
+                                        <option value="No">No</option>
+                                </select>
+                                <select class="span3">
+                                        <option value="Year">Select 3G Package</option>
+                                        <option value="Yes">20MB</option>
+                                        <option value="No">50MB</option>
+                                        <option value="Yes">1GB</option>
+                                        <option value="No">2GB</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- / Forms: Filter Options -->
+
+                        <!-- Forms: Form Actions -->
+                                <div class="form-actions">
+                                        <button type="submit" class="btn btn-warning"> Submit</button>
+                                        <button type="button" class="btn"> Cancel</button>
+                                        
                                 </div>
+                                <!-- / Forms: Form Actions -->
 
-                                <div class="control-group">
-                                        <label class="control-label" for="datepicker">Select Date Range</label>
-                                        <div class="controls">
-                                                <input type="text" id="startDate" placeholder="..." class="span3">
-
-                                                <input type="text" id="endDate" placeholder="..." class="span3">
-                                        </div>
-                                </div>
-
-                                <!-- Forms: Form Filter Options -->
-                                <div class="control-group">
-                                        <label class="control-label" for="inputDate">Filter by</label>
-                                        <div class="controls">
-                                                <select class="span3">
-                                                        <option value="number">Select Age Group</option>
-                                                        <option value="10 - 15">10 - 15</option>
-                                                        <option value="15 - 20">15 - 20</option>
-                                                        <option value="20 - 25">20 - 25</option>
-                                                        <option value="25 - 30">25 - 30</option>
-                                                        <option value="30+">30+</option>
-                                                </select>
-                                                <select class="span3">
-                                                        <option value="Month">Select Occupation</option>
-                                                        <option value="Service">Service</option>
-                                                        <option value="Business">Business</option>
-                                                        <option value="Student">Student</option>
-                                                        <option value="Others">Others</option>
-                                                </select>
-                                                <select class="span3">
-                                                        <option value="Year">Select 3G Pack Status</option>
-                                                        <option value="Yes">Yes</option>
-                                                        <option value="No">No</option>
-                                                </select>
-                                                <select class="span3">
-                                                        <option value="Year">Select 3G Package</option>
-                                                        <option value="Yes">20MB</option>
-                                                        <option value="No">50MB</option>
-                                                        <option value="Yes">1GB</option>
-                                                        <option value="No">2GB</option>
-                                                </select>
-                                        </div>
-                                </div>
-                                <!-- / Forms: Filter Options -->
-
-                                <!-- Forms: Form Actions -->
-                                        <div class="form-actions">
-                                                <button type="submit" class="btn btn-warning"> Submit</button>
-                                                <button type="button" class="btn"> Cancel</button>
-                                        </div>
-                                        <!-- / Forms: Form Actions -->
-
-                                        </form> 
+                                </form> 
                                         <!-- / Forms: Form -->  
                 </div>
                 <!-- / Content -->
@@ -168,7 +170,9 @@
                         </div>
 
                         <br />
+                        <?php echo $this->Form->create('Survey', array('type' => 'post','action' => 'export_report'))?>
                         <button type="submit" class="btn btn-inverse"> Export to Excel</button>
+                        <?php echo $this->Form->end();?>
                 </div>
                 <!-- / Pie: Content -->
 

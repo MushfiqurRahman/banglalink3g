@@ -34,13 +34,13 @@
 		body { padding-top: 102px; }
 	</style>
         
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> 
+<!--        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> -->
 	<?php
 		echo $this->Html->meta('favicon');
                 echo $this->Html->css(array('chosen','bootstrap', 'bootstrap-responsive',
                     'prism','theme/banglalink',));
                 
-                echo $this->Html->script( array('charts/excanvas.min',
+                echo $this->Html->script( array('jquery-1.9.1.min', 'charts/excanvas.min',
                     'charts/jquery.flot','jquery.jpanelmenu.min',
                     'jquery.cookie','avocado-custom-predom','jquery.ui.datepicker'));
 

@@ -141,6 +141,13 @@ class Survey extends AppModel {
 			'fields' => '',
 			'order' => ''
 		),
+                'Team' => array(
+			'className' => 'Team',
+			'foreignKey' => 'team_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+		),
 		'Location' => array(
 			'className' => 'Location',
 			'foreignKey' => 'location_id',
@@ -338,5 +345,45 @@ class Survey extends AppModel {
             )));
             $this->log(print_r($todaysTotal, true), 'error');
             return $todaysTotal;
+        }
+        
+        /**
+         * @desc Used in surveys controller for excel export. In the export_report method
+         * @param type $surveys 
+         */
+        public function format_for_export( $surveys ){
+            
+//            $this->log(print_r($surveys, true),'error');exit;
+            
+            $areaRegionList = $this->Location->Area->find('all', array('fields' => array('id','region_id','title', 'Region.title'),
+                'recursive' => 0));
+                        
+            $formatted = array();
+            $i = 0;
+            
+            foreach( $surveys as $srv ){
+                $formatted[$i]['id'] = $srv['Survey']['id'];
+                
+                foreach ($areaRegionList as $v){
+                    if( $v['Area']['id'] == $srv['Location']['area_id'] ){
+                        $formatted[$i]['region'] = $v['Region']['title'];
+                        $formatted[$i]['area'] = $v['Area']['title'];
+                        break;
+                    }
+                }
+                $formatted[$i]['location'] = $srv['Location']['title'];
+                //$formatted[$i]['br_name'] = $srv['Representative']['name'];
+                //$formatted[$i]['br_code'] = $srv['Representative']['br_code'];
+                $formatted[$i]['team_name'] = $srv['Team']['name'];
+                $formatted[$i]['name'] = $srv['Survey']['name'];
+                $formatted[$i]['mobile_no'] = $srv['Survey']['mobile'];
+                $formatted[$i]['age'] = $srv['Survey']['age'];
+                $formatted[$i]['occupation'] = $srv['Occupation']['title'];
+                //$formatted[$i]['brand'] = $srv['Brand']['title'];
+                $formatted[$i]['date'] = date('Y-m-d',strtotime($srv['Survey']['created']));
+                
+                $i++;
+            }
+            return $formatted;
         }
 }
