@@ -1,146 +1,136 @@
 <?php echo $this->element('info_box');?>
 <!-- Query Panel (Filtering Drop Downs) -->
 <div class="row-fluid">
+    <!-- Box -->
+    <div class="span12">
 
-        <!-- Box -->
-        <div class="span12">
-
-                <!-- Top Bar -->
-                <div class="top-bar">
-                        <h3><i class="icon-user"></i> Filter Panel</h3>
-                </div>
-                <!-- / Top Bar -->
-
-                <!-- Content -->
-                <div class="well">
-
-                <!-- Forms: Form -->
-<!--                    <form class="form-horizontal">-->
-                        <?php 
-                            echo $this->Form->create('Survey', array(
-                                'type' => 'post',
-                                'action' => 'report'
-                            ));
-                        ?>
-
-
-                        <div class="control-group">
-                            <label class="control-label">Select Location</label>
-                            <div class="controls">
-                                <?php
-                                    echo $this->Form->input('location_id', array(
-                                        'type' => 'select',
-                                        'options' => array('1' => 'Loc1'),
-                                        'class' => 'span6 m-wrap',
-                                        'empty' => 'Select Location',
-                                        'label' => false
-                                    ));
-                                ?>
-<!--                                    <select class="span6 m-wrap" data-placeholder="Choose a Category" tabindex="1">
-                                            <option value="">Select...</option>
-                                            <option value="Location 1">Location 1</option>
-                                            <option value="Location 2">Location 2</option>
-                                            <option value="Location 3">Location 3</option>
-                                            <option value="Location 4">Location 4</option>
-                                    </select>-->
-                            </div>
-                        </div>
-
-                        <div class="control-group">
-                            <label class="control-label" for="datepicker">Select Date Range</label>
-                            <div class="controls">
-                                    <input type="text" id="startDate" name="data[Survey][start_date]" placeholder="..." class="span3">
-
-                                    <input type="text" id="endDate" name="data[Survey][end_date]" placeholder="..." class="span3">
-                            </div>
-                        </div>
-
-                        <!-- Forms: Form Filter Options -->
-                        <div class="control-group">
-                            <label class="control-label" for="inputDate">Filter by</label>
-                            <div class="controls">
-                                <?php 
-                                    echo $this->Form->input('age', array(
-                                        'type' => 'select',
-                                        'label' => false,
-                                        'options' => array(
-                                            '10:15' => '10 - 15'
-                                        ),
-                                        'empty' => 'Select Age Group'
-                                    ));
-                                    
-                                    echo $this->Form->input('occupation_id', array(
-                                        'type' => 'select',
-                                        'options' => $occupations,
-                                        'class' => 'span6 m-wrap',
-                                        'empty' => 'Select Occupation',
-                                        'label' => false
-                                    ));
-                                    
-                                    echo $this->Form->input('is_3g', array(
-                                        'type' => 'select',
-                                        'options' => array('1' => 'Yes', '2' => 'No'),
-                                        'class' => 'span6 m-wrap',
-                                        'empty' => 'Select 3g Pack Status',
-                                        'label' => false
-                                    ));
-                                    
-                                    echo $this->Form->input('package_id', array(
-                                        'type' => 'select',
-                                        'options' => $packages,
-                                        'class' => 'span6 m-wrap',
-                                        'empty' => 'Select Package',
-                                        'label' => false
-                                    ));
-                                ?>
-<!--//                                <select class="span3">
-//                                        <option value="number">Select Age Group</option>
-//                                        <option value="10 - 15">10 - 15</option>
-//                                        <option value="15 - 20">15 - 20</option>
-//                                        <option value="20 - 25">20 - 25</option>
-//                                        <option value="25 - 30">25 - 30</option>
-//                                        <option value="30+">30+</option>
-//                                </select>
-                                <select class="span3">
-                                        <option value="Month">Select Occupation</option>
-                                        <option value="Service">Service</option>
-                                        <option value="Business">Business</option>
-                                        <option value="Student">Student</option>
-                                        <option value="Others">Others</option>
-                                </select>
-                                <select class="span3">
-                                        <option value="Year">Select 3G Pack Status</option>
-                                        <option value="Yes">Yes</option>
-                                        <option value="No">No</option>
-                                </select>
-                                <select class="span3">
-                                        <option value="Year">Select 3G Package</option>
-                                        <option value="Yes">20MB</option>
-                                        <option value="No">50MB</option>
-                                        <option value="Yes">1GB</option>
-                                        <option value="No">2GB</option>
-                                </select>-->
-                            </div>
-                        </div>
-                        <!-- / Forms: Filter Options -->
-
-                        <!-- Forms: Form Actions -->
-                                <div class="form-actions">
-                                        <button type="submit" class="btn btn-warning"> Submit</button>
-                                        <button type="button" class="btn"> Cancel</button>
-                                        
-                                        <?php echo $this->Form->end();?>
-                                        
-                                </div>
-                                <!-- / Forms: Form Actions -->
-
-                                </form> 
-                                        <!-- / Forms: Form -->  
-                </div>
-                <!-- / Content -->
-
+        <!-- Top Bar -->
+        <div class="top-bar">
+                <h3><i class="icon-user"></i> Filter Panel</h3>
         </div>
-        <!-- / Box -->
+        <!-- / Top Bar -->
+
+        <!-- Content -->
+        <div class="well">
+
+        <!-- Forms: Form -->
+<!--                    <form class="form-horizontal">-->
+            <?php 
+                echo $this->Form->create('Survey', array(
+                    'type' => 'post',
+                    'action' => 'report'
+                ));
+            ?>
+            <div class="control-group">
+                <label class="control-label">Select Location</label>
+                <div class="controls">
+                    <?php
+                        echo $this->Form->input('location_id', array(
+                            'type' => 'select',
+                            'options' => array('1' => 'Loc1'),
+                            'class' => 'span6 m-wrap',
+                            'empty' => 'Select Location',
+                            'label' => false
+                        ));
+                    ?>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="datepicker">Select Date Range</label>
+                <div class="controls">
+                        <input type="text" id="startDate" name="data[Survey][start_date]" placeholder="..." class="span3">
+
+                        <input type="text" id="endDate" name="data[Survey][end_date]" placeholder="..." class="span3">
+                </div>
+            </div>
+
+            <!-- Forms: Form Filter Options -->
+            <div class="control-group">
+                <label class="control-label" for="inputDate">Filter by</label>
+                <div class="controls">
+                    <?php 
+                        echo $this->Form->input('age', array(
+                            'type' => 'select',
+                            'label' => false,
+                            'options' => array(
+                                '10:15' => '10 - 15'
+                            ),
+                            'empty' => 'Select Age Group'
+                        ));
+
+                        echo $this->Form->input('occupation_id', array(
+                            'type' => 'select',
+                            'options' => $occupations,
+                            'class' => 'span6 m-wrap',
+                            'empty' => 'Select Occupation',
+                            'label' => false
+                        ));
+
+                        echo $this->Form->input('is_3g', array(
+                            'type' => 'select',
+                            'options' => array('1' => 'Yes', '2' => 'No'),
+                            'class' => 'span6 m-wrap',
+                            'empty' => 'Select 3g Pack Status',
+                            'label' => false
+                        ));
+
+                        echo $this->Form->input('package_id', array(
+                            'type' => 'select',
+                            'options' => $packages,
+                            'class' => 'span6 m-wrap',
+                            'empty' => 'Select Package',
+                            'label' => false
+                        ));
+                    ?>
+    <!--//                                <select class="span3">
+    //                                        <option value="number">Select Age Group</option>
+    //                                        <option value="10 - 15">10 - 15</option>
+    //                                        <option value="15 - 20">15 - 20</option>
+    //                                        <option value="20 - 25">20 - 25</option>
+    //                                        <option value="25 - 30">25 - 30</option>
+    //                                        <option value="30+">30+</option>
+    //                                </select>
+                    <select class="span3">
+                            <option value="Month">Select Occupation</option>
+                            <option value="Service">Service</option>
+                            <option value="Business">Business</option>
+                            <option value="Student">Student</option>
+                            <option value="Others">Others</option>
+                    </select>
+                    <select class="span3">
+                            <option value="Year">Select 3G Pack Status</option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                    </select>
+                    <select class="span3">
+                            <option value="Year">Select 3G Package</option>
+                            <option value="Yes">20MB</option>
+                            <option value="No">50MB</option>
+                            <option value="Yes">1GB</option>
+                            <option value="No">2GB</option>
+                    </select>-->
+                </div>
+            </div>
+            <!-- / Forms: Filter Options -->
+
+            <!-- Forms: Form Actions -->
+                    <div class="form-actions">
+                            <button type="submit" class="btn btn-warning"> Submit</button>
+                            <button type="button" class="btn"> Cancel</button>
+
+                            <?php echo $this->Form->end();?>
+
+                    </div>
+                    <!-- / Forms: Form Actions -->
+
+                    </form> 
+                            <!-- / Forms: Form -->  
+        </div>
+        <!-- / Content -->
+
+    </div>
+    <!-- / Box -->
 
 </div>
 <!-- / Query Panel (Filtering Drop Downs) -->
@@ -173,14 +163,17 @@
                                                 <th>Location</th>
                                                 <th>BP Name</th>
                                                 <th>BP Code</th>
-                                                <th>Consumer Name</th>
-                                                <th>Mobile No</th>
+                                                <th>Consumer Name</th>                                                
                                                 <th>Occupation</th>
                                                 <th class="center">Age</th>
-                                                <th class="center">3G Pack</th>
-                                                <th class="center">3G Package</th>
+                                                <th class="center">Gender</th>
+                                                <th>Mobile No</th>
+                                                <th class="center">Monthly Recharge</th>
+                                                <th class="center">Monthly Internet Usage</th>
                                                 <th>Handset Type</th>
                                                 <th>Handset Brand</th>
+                                                <th class="center">Buying 3G Pack</th>
+                                                <th class="center">New Package</th>
                                                 <th>Date &amp; Time</th>
                                         </tr>
                                 </thead>
@@ -188,7 +181,7 @@
                                 <?php
                                     if(count($Surveys)>0){
                                         $i = 1;
-                                        foreach ($Surveys as $survey){
+                                        foreach ($Surveys as $survey){ //pr($survey);exit;
                                             ?>                                
                                         <tr class="<?php echo $i%2==1? 'odd gradeX' : 'even gradeC';?>">    
                                             <td><?php echo $survey['Survey']['id'];?></td>
@@ -199,14 +192,17 @@
                                             <td><?php echo $survey['Promoter']['name'];?></td>
                                             <td><?php echo $survey['Promoter']['code'];?></td>
                                             <td><?php echo $survey['Survey']['name'];?></td>
-                                            <td><?php echo $survey['Survey']['mobile'];?></td>
                                             <td><?php echo $survey['Occupation']['title'];?></td>
                                             <td class="center"><?php echo $survey['Survey']['age'];?></td>
-                                            <td class="center"><?php echo $survey['Survey']['is_3g']==true ? 'Yes': 'No';?></td>
-                                            <td><?php echo $survey['Package']['title'];?></td>
-                                            <td><?php echo $survey['Survey']['is_smart_phone']==true? 'Smart Phone': 'Regular Phone';?></td>
+                                            <td><?php echo $survey['Survey']['is_female']?'Female':'Male';?></td>
+                                            <td><?php echo $survey['Survey']['mobile'];?></td>
+                                            <td class="center"><?php echo $survey['Survey']['recharge_amount'];?></td>
+                                            <td class="center"><?php echo $survey['Survey']['monthly_internet_usage'];?></td>
+                                            <td class="center"><?php echo $survey['Survey']['is_smart_phone']==true? 'Smart Phone': 'Regular Phone';?></td>
                                             <td><?php echo $survey['MobileBrand']['title'];?></td>
-                                            <td><?php echo $survey['Survey']['created'];?></td>
+                                            <td class="center"><?php echo $survey['Survey']['is_3g']==true ? 'Yes': 'No';?></td>                                            
+                                            <td><?php echo $survey['Package']['title'];?></td>                                            
+                                            <td><?php echo $survey['Survey']['date_time'];?></td>
                                         </tr>
                                 <?php                                
                                         }

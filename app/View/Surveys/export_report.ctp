@@ -2,7 +2,7 @@
 //pr($surveys);exit;
 //$this->Excel->generate($surveys, 'Survey Report');
 
-function xlsBOF() {
+    function xlsBOF() {
         echo pack("ssssss", 0x809, 0x8, 0x0, 0x10, 0x0, 0x0);
         return;
     }
@@ -33,7 +33,10 @@ function xlsBOF() {
     header("Content-Transfer-Encoding: binary ");
     xlsBOF();
     
-    $tableHeaders = array('ID', 'Region', 'Area', 'Location', 'Team Name', 'BP Name');
+    $tableHeaders = array('ID', 'Region', 'Area', 'Team Name', 'Location',
+        'BP Name', 'BP Code', 'Consumer Name', 'Occupation', 'Age','Gender',
+        'Mobile No','Monthly Recharge','Monthly Internet Usage','Handset Type',
+        'Handset Brand','Buying 3G Pack','New Package', 'Date & Time');
     $i = 0;
     foreach( $tableHeaders as $th ){
         xlsWriteLabel(0, $i, $th);
@@ -44,7 +47,7 @@ function xlsBOF() {
     foreach($surveys as $srv){
         $col = 0;
         foreach($srv as $v){
-            if( $col==0 || $col==5 || $col==8 || $col==9 ){
+            if( $col==0 || $col==9 || $col==12 ){
                 xlsWriteNumber($xlsRow,$col,$v);
             }else{
                 xlsWriteLabel($xlsRow,$col,$v);

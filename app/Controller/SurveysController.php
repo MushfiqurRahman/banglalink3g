@@ -28,7 +28,6 @@ class SurveysController extends AppController {
         $this->Survey->Behaviors->load('Containable');
 
         $this->paginate = array(
-            //'fields' => array('id','outlet_id','date_time'),
             'contain' => $this->Survey->get_contain_array(),
             'conditions' => $this->Survey->set_conditions($locationsIds, $this->request->data),
             'order' => array('Survey.created' => 'DESC'),
@@ -69,18 +68,19 @@ class SurveysController extends AppController {
 //                'hasOne' => array('Feedback')));
 
         $Surveys = $this->Survey->find('all', array(
-            'fields' => array('id','location_id','area_id', 'region_id','promoter_id',
-                'team_id','name','mobile','age','occupation_id',
-                'created', 'Promoter.name','Team.name',
-                'MobileBrand.title','Occupation.title',
+            'fields' => array('id','location_id','area_id', 'region_id',
+                'promoter_id','team_id','name','occupation_id','age',
+                'is_female','mobile','recharge_amount','monthly_internet_usage',
+                'is_smart_phone','mobile_brand_id','is_3g','package_id',
+                'date_time', 'Promoter.name','Promoter.code','Team.name',
+                'MobileBrand.title','Occupation.title','Package.title',
                 'Location.title','Location.area_id'),
-            //'conditions' => $this->Survey->set_conditions($SurveyIds, $this->request->data),
             'conditions' => $this->Survey->set_conditions($locationsIds, $this->request->data),
             'order' => array('Survey.created' => 'DESC'),      
         ));                 
         $Surveys = $this->Survey->format_for_export($Surveys);
 //        $this->log(print_r($Surveys,true),'error');
-//        print_r($Surveys);exit;
+//        pr($Surveys);exit;
         $this->set('surveys',$Surveys); 
     }
 

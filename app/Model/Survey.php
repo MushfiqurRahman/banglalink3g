@@ -355,14 +355,15 @@ class Survey extends AppModel {
             
 //            $this->log(print_r($surveys, true),'error');exit;
             
-            $areaRegionList = $this->Location->Area->find('all', array('fields' => array('id','region_id','title', 'Region.title'),
+            $areaRegionList = $this->Location->Area->find('all', array(
+                'fields' => array('id','region_id','title', 'Region.title'),
                 'recursive' => 0));
                         
             $formatted = array();
             $i = 0;
             
             foreach( $surveys as $srv ){
-                $formatted[$i]['id'] = $srv['Survey']['id'];
+                $formatted[$i]['sl'] = $srv['Survey']['id'];
                 
                 foreach ($areaRegionList as $v){
                     if( $v['Area']['id'] == $srv['Location']['area_id'] ){
@@ -371,16 +372,22 @@ class Survey extends AppModel {
                         break;
                     }
                 }
-                $formatted[$i]['location'] = $srv['Location']['title'];
-                //$formatted[$i]['br_name'] = $srv['Representative']['name'];
-                //$formatted[$i]['br_code'] = $srv['Representative']['br_code'];
                 $formatted[$i]['team_name'] = $srv['Team']['name'];
-                $formatted[$i]['name'] = $srv['Survey']['name'];
-                $formatted[$i]['mobile_no'] = $srv['Survey']['mobile'];
-                $formatted[$i]['age'] = $srv['Survey']['age'];
+                $formatted[$i]['location'] = $srv['Location']['title'];
+                $formatted[$i]['bp_name'] = $srv['Promoter']['name'];
+                $formatted[$i]['bp_code'] = $srv['Promoter']['code'];                
+                $formatted[$i]['consumer_name'] = $srv['Survey']['name'];
                 $formatted[$i]['occupation'] = $srv['Occupation']['title'];
-                //$formatted[$i]['brand'] = $srv['Brand']['title'];
-                $formatted[$i]['date'] = date('Y-m-d',strtotime($srv['Survey']['created']));
+                $formatted[$i]['age'] = $srv['Survey']['age'];
+                $formatted[$i]['gender'] = $srv['Survey']['is_female']?'Female':'Male';
+                $formatted[$i]['mobile_no'] = $srv['Survey']['mobile'];
+                $formatted[$i]['monthly_recharge'] = $srv['Survey']['recharge_amount'];
+                $formatted[$i]['monthly_internet_usage'] = $srv['Survey']['monthly_internet_usage'];
+                $formatted[$i]['handset_type'] = $srv['Survey']['is_smart_phone']?'Smart Phone':'Regular Phone';
+                $formatted[$i]['handset_brand'] = $srv['Survey']['mobile_brand_id']==0?'N/A':$srv['MobileBrand']['title'];
+                $formatted[$i]['buying_3g_pack'] = $srv['Survey']['is_3g']?'Yes':'No';
+                $formatted[$i]['new_package'] = $srv['Survey']['package_id']==0?'N/A':$srv['Package']['title'];
+                $formatted[$i]['date_time'] = date('Y-m-d',strtotime($srv['Survey']['date_time']));
                 
                 $i++;
             }
