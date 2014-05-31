@@ -27,7 +27,7 @@
                     <?php
                         echo $this->Form->input('location_id', array(
                             'type' => 'select',
-                            'options' => array('1' => 'Loc1'),
+                            'options' => $locations,
                             'class' => 'span6 m-wrap',
                             'empty' => 'Select Location',
                             'label' => false
@@ -54,9 +54,15 @@
                             'type' => 'select',
                             'label' => false,
                             'options' => array(
-                                '10:15' => '10 - 15'
+                                '10:15' => '10 - 15',
+                                '15:20' => '15 - 20',
+                                '20:25' => '20 - 25',
+                                '25:30' => '25 - 30',
+                                '30:30' => '30+'
                             ),
-                            'empty' => 'Select Age Group'
+                            'empty' => 'Select Age Group',
+                            'class' => 'span3',
+                            'div' => false
                         ));
 
                         echo $this->Form->input('occupation_id', array(
@@ -64,15 +70,19 @@
                             'options' => $occupations,
                             'class' => 'span6 m-wrap',
                             'empty' => 'Select Occupation',
-                            'label' => false
+                            'label' => false,
+                            'class' => 'span3',
+                            'div' => false
                         ));
 
                         echo $this->Form->input('is_3g', array(
                             'type' => 'select',
-                            'options' => array('1' => 'Yes', '2' => 'No'),
+                            'options' => array('Yes' => 'Yes', 'No' => 'No'),
                             'class' => 'span6 m-wrap',
                             'empty' => 'Select 3g Pack Status',
-                            'label' => false
+                            'label' => false,
+                            'class' => 'span3',
+                            'div' => false
                         ));
 
                         echo $this->Form->input('package_id', array(
@@ -80,36 +90,43 @@
                             'options' => $packages,
                             'class' => 'span6 m-wrap',
                             'empty' => 'Select Package',
-                            'label' => false
+                            'class' => 'span3',
+                            'label' => false,
+                            'div' => false
                         ));
+                        
+                        
+                        $url_params = array();
+
+                        if( isset($this->data['start_date']) ){
+                            $url_params['start_date'] = $this->data['start_date'];
+                        }
+                        if( isset($this->data['end_date']) ){
+                            $url_params['end_date'] = $this->data['end_date'];
+                        }
+                        if( isset($this->data['Region']['id']) && $this->data['Region']['id']){
+                            $url_params['region_id'] = $this->data['Region']['id'];
+                        }
+                        if( isset($this->data['Area']['id']) && $this->data['Area']['id']){
+                            $url_params['area_id'] = $this->data['Area']['id'];
+                        }
+                        if( isset($this->data['House']['id']) && $this->data['House']['id']){
+                            $url_params['house_id'] = $this->data['House']['id'];
+                        }
+                        if( isset($this->data['occupation_id']) ){
+                            $url_params['occupation_id'] = $this->data['occupation_id'];
+                        }
+                        if( isset($this->data['age_limit']) ){
+                            $url_params['age_limit'] = $this->data['age_limit'];
+                        }
+            //            if( isset($this->data['adc']) ){
+            //                $url_params['adc'] = $this->data['adc'];
+            //            }
+                        if( isset($this->data['brand_id']) ){
+                            $url_params['brand_id'] = $this->data['brand_id'];
+                        }
+                        $this->Paginator->options(array('url' => $url_params));  
                     ?>
-    <!--//                                <select class="span3">
-    //                                        <option value="number">Select Age Group</option>
-    //                                        <option value="10 - 15">10 - 15</option>
-    //                                        <option value="15 - 20">15 - 20</option>
-    //                                        <option value="20 - 25">20 - 25</option>
-    //                                        <option value="25 - 30">25 - 30</option>
-    //                                        <option value="30+">30+</option>
-    //                                </select>
-                    <select class="span3">
-                            <option value="Month">Select Occupation</option>
-                            <option value="Service">Service</option>
-                            <option value="Business">Business</option>
-                            <option value="Student">Student</option>
-                            <option value="Others">Others</option>
-                    </select>
-                    <select class="span3">
-                            <option value="Year">Select 3G Pack Status</option>
-                            <option value="Yes">Yes</option>
-                            <option value="No">No</option>
-                    </select>
-                    <select class="span3">
-                            <option value="Year">Select 3G Package</option>
-                            <option value="Yes">20MB</option>
-                            <option value="No">50MB</option>
-                            <option value="Yes">1GB</option>
-                            <option value="No">2GB</option>
-                    </select>-->
                 </div>
             </div>
             <!-- / Forms: Filter Options -->
@@ -134,9 +151,6 @@
 
 </div>
 <!-- / Query Panel (Filtering Drop Downs) -->
-
-
-
 
 <!-- Live Stats -->
 <div class="row-fluid">
@@ -214,6 +228,17 @@
                                         
                                 </tbody>
                         </table>
+                            <div class="paging">
+                            <?php
+                                echo $this->Paginator->counter(array(
+                                'format' => __('Showing {:current} records out of {:count} total')
+                                ));
+                                echo '<br/>';
+                                    echo $this->Paginator->prev('< ' . __('previous | '), array(), null, array('class' => 'prev disabled'));
+                                    echo $this->Paginator->numbers(array('separator' => ' | '));
+                                    echo $this->Paginator->next(__(' | next') . ' >', array(), null, array('class' => 'next disabled'));
+                            ?>
+                            </div>
                         </div>
 
                         <br />

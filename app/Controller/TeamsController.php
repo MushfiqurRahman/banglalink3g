@@ -68,7 +68,9 @@ class TeamsController extends AppController {
 				$this->Session->setFlash(__('The team could not be saved. Please, try again.'));
 			}
 		} else {
-			$options = array('conditions' => array('Team.' . $this->Team->primaryKey => $id));
+			$options = array(
+                            'conditions' => array('Team.' . $this->Team->primaryKey => $id),
+                            'recursive' => -1);
 			$this->request->data = $this->Team->find('first', $options);
 		}
 	}

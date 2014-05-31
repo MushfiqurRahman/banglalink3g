@@ -179,30 +179,23 @@ class Survey extends AppModel {
 	);
         
         protected function _getTeamId($promoterId){
-            App::import('Model', 'Promoter');
-            $Promoter = new Promoter();
             
-            return $Promoter->field('team_id', array('conditions' => array(
+            return $this->Promoter->field('team_id', array(
                 'Promoter.id' => $promoterId
-            )));            
+            ));            
         }
         
         protected function _getAreaRegionId($locationId){
             $response = array();
-            App::import('Model', 'Location');
-            $Location = new Location();
-            $response['area_id'] = $Location->field('area_id', array('conditions' => array(
+            $response['area_id'] = $this->Location->field('area_id', array(
                 'Location.id' => $locationId
-            )));
+            ));
             
-            $response['region_id'] = $Location->Area->field('region_id', array('conditions' => array(
+            $response['region_id'] = $this->Location->Area->field('region_id', array(
                 'Area.id' => $response['area_id']
-            )));
+            ));
+            return $response;
         }
-        
-//        protected function _getRegionId($locationId){
-//            App::import('Model', )
-//        }
         
         /**
          * 
@@ -212,11 +205,14 @@ class Survey extends AppModel {
         public function saveSurvey($data){
             $survey['Survey'] = array();
             
-            foreach( $data as $k => $v){
+            foreach( $data as $k => $v){                
                 $survey['Survey'][$k] = $v;
                 
+                if( $k=='package_id' && $v=='None'){
+                    $survey['Survey'][$k] = 0;
+                }                
                 if( $k=='location_id'){
-                    $areaRegion = $this->_getAreaRegionId($v);
+                    $areaRegion = $this->_getAreaRegionId($v);                    
                     $survey['Survey']['area_id'] = $areaRegion['area_id'];
                     $survey['Survey']['region_id'] = $areaRegion['region_id'];
                 }
@@ -271,40 +267,47 @@ class Survey extends AppModel {
             
             $conditions = array();
             
-//            if( $surveyIds ){
-//                $conditions[]['Survey.id'] = $surveyIds;                
-//            }else{
-//                $conditions[]['Survey.id'] = 0;
-//            }
-            
             if( $locationIds ){
                 $conditions[]['Survey.location_id'] = $locationIds;                
+            }            
+            if( isset($data['Survey']['start_date']) && !empty($data['Survey']['start_date']) ){
+                $conditions[]['DATE(Survey.created) >='] = $data['Survey']['start_date'];
             }
-            
-            if( isset($data['start_date']) && !empty($data['start_date']) ){
-                $conditions[]['DATE(Survey.created) >='] = $data['start_date'];
+            if( isset($data['Survey']['end_date']) && !empty($data['Survey']['end_date']) ){
+                $conditions[]['DATE(Survey.created) <='] = $data['Survey']['end_date'];
+            }            
+            if( isset($data['Survey']['occupation_id']) && !empty($data['Survey']['occupation_id']) ){
+                $conditions[]['Survey.occupation_id'] = $data['Survey']['occupation_id'];
             }
-            if( isset($data['end_date']) && !empty($data['end_date']) ){
-                $conditions[]['DATE(Survey.created) <='] = $data['end_date'];
+            if( isset($data['Survey']['package_id']) && !empty($data['Survey']['package_id']) ){
+                $conditions[]['Survey.package_id'] = $data['Survey']['package_id'];
             }
-            
-            if( isset($data['occupation_id']) && !empty($data['occupation_id']) ){
-                $conditions[]['Survey.occupation_id'] = $data['occupation_id'];
-            }
-            if( isset($data['age_limit']) && !empty($data['age_limit']) ){
-                $limits = $this->_get_limits($data['age_limit']);
+            if( isset($data['Survey']['age']) && !empty($data['Survey']['age']) ){
+                $limits = $this->_get_limits($data['Survey']['age']);
                 $conditions[]['age >='] = $limits['lower'];
                 if( isset($limits['upper']) ){
                     $conditions[]['age <='] = $limits['upper'];
                 }                
             }            
-            if( isset($data['is_3g']) && !empty($data['is_3g']) ){
-                $conditions[]['Survey.is_3g'] = $data['is_3g'];
-            }
-            if( isset($data['is_smart_phone']) && !empty($data['is_smart_phone']) ){
-                $conditions[]['Survey.is_smart_phone'] = $data['is_smart_phone'];
+            if( isset($data['Survey']['is_3g']) && !empty($data['Survey']['is_3g']) ){
+                $conditions[]['Survey.is_3g'] = $data['Survey']['is_3g']=='Yes'? 1: 0;
             }
             return $conditions;
+        }
+        
+        /**
+         * 
+         */
+        protected function _get_limits( $str ){
+            $hasSeperator = strpos($str,':');
+            
+            if( $hasSeperator!==false ){
+                $res['lower'] = substr($str,0,$hasSeperator);
+                $res['upper'] = substr($str, $hasSeperator+1);
+            }else{
+                $res['lower'] = $str;
+            }
+            return $res;
         }
         
         public function getTotalFb(){

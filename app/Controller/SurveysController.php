@@ -21,9 +21,11 @@ class SurveysController extends AppController {
     }
     
     public function report(){
-                pr($this->request->data);//exit;
-        
+        $this->_set_request_data_from_params();
+                pr($this->request->data);//exit;        
         $locationsIds = $this->Survey->Location->getLocationIds($this->request->data['Survey']);
+        
+        $this->_initialise_form_values($locationsIds);
         
         $this->Survey->Behaviors->load('Containable');
 
@@ -31,7 +33,7 @@ class SurveysController extends AppController {
             'contain' => $this->Survey->get_contain_array(),
             'conditions' => $this->Survey->set_conditions($locationsIds, $this->request->data),
             'order' => array('Survey.created' => 'DESC'),
-            'limit' => 20,
+            'limit' => 4,
         );
         $Surveys = $this->paginate();
         //pr($Surveys);exit;
@@ -39,6 +41,52 @@ class SurveysController extends AppController {
         if( !empty($this->request->query)){
             $this->set('data',$this->request->query);
         }
+    }
+    
+    /**
+     * 
+     */
+    protected function _set_request_data_from_params(){
+        
+        if( !$this->request->is('post') && !empty($this->request->params['named'])){
+            if( isset($this->request->params['named']['region_id']) ){
+                $this->request->data['Region']['id'] = $this->request->params['named']['region_id'];
+            }
+            if( isset($this->request->params['named']['area_id']) ){
+                $this->request->data['Area']['id'] = $this->request->params['named']['area_id'];
+            }            
+            if( isset($this->request->params['named']['location_id']) ){
+                $this->request->data['Location']['id'] = $this->request->params['named']['location_id'];
+            }            
+            
+            if( isset($this->request->params['named']['age']) ){
+                $this->request->data['age'] = $this->request->params['named']['age_limit'];
+            }
+            if( isset($this->request->params['named']['start_date']) ){
+                $this->request->data['start_date'] = $this->request->params['named']['start_date'];
+            }
+            if( isset($this->request->params['named']['end_date']) ){
+                $this->request->data['end_date'] = $this->request->params['named']['end_date'];
+            }
+            if( isset($this->request->params['named']['occupation_id']) ){
+                $this->request->data['occupation_id'] = $this->request->params['named']['occupation_id'];
+            }
+            
+            if( isset($this->request->params['named']['is_3g']) ){
+                $this->request->data['Survey']['is_3g'] = $this->request->params['named']['is_3g']=='Yes'?1:0;
+            }
+        } 
+    } 
+    
+    /**
+     * For the filtering form
+     */
+    protected function _initialise_form_values($locationIds = array()){
+        $this->set('locations', $this->Survey->Location->find('list', array(
+            'Location.id' => $locationIds
+        )));
+        $this->set('occupations', $this->Survey->Occupation->find('list'));
+        $this->set('packages', $this->Survey->Package->find('list'));
     }
     
     public function export_report(){

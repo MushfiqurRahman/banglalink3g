@@ -1,5 +1,6 @@
 <?php
-date_default_timezone_set('Asia/Dhaka');
+date_default_timezone_set('Asia/Dacca');
+
 /**
  * Application level Controller
  *
