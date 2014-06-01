@@ -22,7 +22,7 @@ class SurveysController extends AppController {
     
     public function report(){
         $this->_set_request_data_from_params();
-                pr($this->request->data);//exit;        
+//                pr($this->request->data);//exit;        
         $locationsIds = $this->Survey->Location->getLocationIds($this->request->data['Survey']);
         
         $this->_initialise_form_values($locationsIds);

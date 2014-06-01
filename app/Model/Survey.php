@@ -321,7 +321,7 @@ class Survey extends AppModel {
                     'Survey.is_3g' => 1
                 )));
                 $this->log(print_r($total3GUser, true), 'error');
-                $parcent = (100*$total3GUser)/$total;
+                $parcent = round((100*$total3GUser)/$total, 2);                
                 return $parcent;
             }else{
                 return 0;
@@ -335,7 +335,7 @@ class Survey extends AppModel {
                     'Survey.is_smart_phone' => 1
                 )));
                 $this->log(print_r($totalSmartPhoneUser, true), 'error');
-                $parcent = (100*$totalSmartPhoneUser)/$total;
+                $parcent = round((100*$totalSmartPhoneUser)/$total, 2);
                 return $parcent;
             }else{
                 return 0;

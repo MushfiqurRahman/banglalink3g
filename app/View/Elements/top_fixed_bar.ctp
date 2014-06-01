@@ -107,6 +107,10 @@
                                     <?php echo $this->Html->link('Location', array('controller' => 'locations', 'action' => 'index'));?>
                                 </li>
                                 
+                                <li>
+                                    <?php echo $this->Html->link('Import Data', array('controller' => 'regions', 'action' => 'import_data'));?>
+                                </li>
+                                
                         </ul>
                         <!-- / Top Fixed Bar: Breadcrumb Location -->
 
