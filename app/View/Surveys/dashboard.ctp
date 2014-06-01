@@ -48,10 +48,10 @@
                     <div class="control-group">
                     <label class="control-label">Select Team</label>
                     <div class="controls">
-                        <?php echo $this->Form->input('location_id', array(
+                        <?php echo $this->Form->input('team_id', array(
                             'type' => 'select', 'options' => array(), 
-                            'class' => 'span6 m-wrap', 'id' => 'locationId',
-                            'empty'  => 'All Location', 'label' => false));?>
+                            'class' => 'span6 m-wrap', 'id' => 'teamId',
+                            'empty'  => 'All Team', 'label' => false));?>
 
                     </div>
                     </div>
@@ -101,7 +101,7 @@
 		});
                 
                 $("#areaId").change(function(){                    
-                    find_locations( $(this).val());	
+                    find_teams( $(this).val());	
                 });
 		
 		function find_areas( regionId ){                    
@@ -112,30 +112,30 @@
 				success: function(response){					
 					var areas = $.parseJSON(response);
 					
-                                        $("#areaId").html('<select name="data[Area][id]" id="areaId"><option value="">All Area</option></select>');
-                                        $("#locationId").html('<select name="data[Location][id]" id="locationId"><option value="">All Location</option></select>');
+                                        $("#areaId").html('<select name="data[Survey][area_id]" id="areaId"><option value="">All Area</option></select>');
+                                        $("#teamId").html('<select name="data[Survey][team_id]" id="teamId"><option value="">All Team</option></select>');
 					$.each(areas, function(ind,val){                                             
-						$('#areaId').append('<option value="'+ind+'">'+val+'</option>');						                                                
+                                            $('#areaId').append('<option value="'+ind+'">'+val+'</option>');						                                                
 					});
                                         $("#areaId").trigger("chosen:updated");
 				}
 			});
 		}
                 
-                function find_locations( areaId){                   
+                function find_teams( areaId){                   
                     $.ajax({
-                            url: base_url+'locations/ajax_location_list',
+                            url: base_url+'teams/ajax_team_list',
                             type: 'post',
                             data: 'area_id='+areaId,
                             success: function(response){                                
-                                    var locations = $.parseJSON(response);
+                                    var teams = $.parseJSON(response);
                                     
-                                    $("#locationId").html('<select name="data[Location][id]" id="locationId"><option value="">All Location</option></select>');
-                                    $.each(locations, function(ind,val){                                        
-                                            $('#locationId').append('<option value="'+ind+'">'+val+'</option>');						
+                                    $("#teamId").html('<select name="data[Survey][team_id]" id="teamId"><option value="">All Team</option></select>');
+                                    $.each(teams, function(ind,val){                                        
+                                            $('#teamId').append('<option value="'+ind+'">'+val+'</option>');						
                                             
                                     });
-                                    $("#locationId").trigger("chosen:updated");
+                                    $("#teamId").trigger("chosen:updated");
                             }
                     });                
                 }

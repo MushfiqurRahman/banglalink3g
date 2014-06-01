@@ -320,7 +320,6 @@ class Survey extends AppModel {
                 $total3GUser = $this->find('count', array('conditions' => array(
                     'Survey.is_3g' => 1
                 )));
-                $this->log(print_r($total3GUser, true), 'error');
                 $parcent = round((100*$total3GUser)/$total, 2);                
                 return $parcent;
             }else{
@@ -334,7 +333,6 @@ class Survey extends AppModel {
                 $totalSmartPhoneUser = $this->find('count', array('conditions' => array(
                     'Survey.is_smart_phone' => 1
                 )));
-                $this->log(print_r($totalSmartPhoneUser, true), 'error');
                 $parcent = round((100*$totalSmartPhoneUser)/$total, 2);
                 return $parcent;
             }else{
@@ -344,9 +342,8 @@ class Survey extends AppModel {
         
         public function getTodaysFbTotal(){            
             $todaysTotal = $this->find('count', array('conditions' => array(
-                'DATE(Survey.date_time)' => date('Y-m-d',time())
+                'DATE(Survey.created)' => date('Y-m-d',time())
             )));
-            $this->log(print_r($todaysTotal, true), 'error');
             return $todaysTotal;
         }
         
@@ -390,7 +387,7 @@ class Survey extends AppModel {
                 $formatted[$i]['handset_brand'] = $srv['Survey']['mobile_brand_id']==0?'N/A':$srv['MobileBrand']['title'];
                 $formatted[$i]['buying_3g_pack'] = $srv['Survey']['is_3g']?'Yes':'No';
                 $formatted[$i]['new_package'] = $srv['Survey']['package_id']==0?'N/A':$srv['Package']['title'];
-                $formatted[$i]['date_time'] = date('Y-m-d',strtotime($srv['Survey']['date_time']));
+                $formatted[$i]['date_time'] = date('Y-m-d',strtotime($srv['Survey']['created']));
                 
                 $i++;
             }

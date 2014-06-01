@@ -22,8 +22,10 @@ class SurveysController extends AppController {
     
     public function report(){
         $this->_set_request_data_from_params();
-//                pr($this->request->data);//exit;        
+                //pr($this->request->data);//exit;        
         $locationsIds = $this->Survey->Location->getLocationIds($this->request->data['Survey']);
+        
+        //pr($locationsIds);
         
         $this->_initialise_form_values($locationsIds);
         
@@ -50,13 +52,16 @@ class SurveysController extends AppController {
         
         if( !$this->request->is('post') && !empty($this->request->params['named'])){
             if( isset($this->request->params['named']['region_id']) ){
-                $this->request->data['Region']['id'] = $this->request->params['named']['region_id'];
+                $this->request->data['Survey']['region_id'] = $this->request->params['named']['region_id'];
             }
             if( isset($this->request->params['named']['area_id']) ){
-                $this->request->data['Area']['id'] = $this->request->params['named']['area_id'];
-            }            
+                $this->request->data['Survey']['area_id'] = $this->request->params['named']['area_id'];
+            }
+            if( isset($this->request->params['named']['team_id']) ){
+                $this->request->data['Survey']['team_id'] = $this->request->params['named']['team_id'];
+            }
             if( isset($this->request->params['named']['location_id']) ){
-                $this->request->data['Location']['id'] = $this->request->params['named']['location_id'];
+                $this->request->data['Survey']['location_id'] = $this->request->params['named']['location_id'];
             }            
             
             if( isset($this->request->params['named']['age']) ){
@@ -83,7 +88,7 @@ class SurveysController extends AppController {
      */
     protected function _initialise_form_values($locationIds = array()){
         $this->set('locations', $this->Survey->Location->find('list', array(
-            'Location.id' => $locationIds
+            'conditions' => array('Location.id' => $locationIds),
         )));
         $this->set('occupations', $this->Survey->Occupation->find('list'));
         $this->set('packages', $this->Survey->Package->find('list'));
@@ -99,28 +104,12 @@ class SurveysController extends AppController {
         }else{
             $locationsIds = $this->Survey->Location->getLocationIds();
         }
-//            $houseList = $this->Survey->House->house_list($this->request->data);
-//
-//            if( isset($this->request->data['House']['id']) && !empty($this->request->data['House']['id']) ){
-//                $houseIds[] = $this->request->data['House']['id'];
-//            }else{
-//                $houseIds = $this->Survey->House->id_from_list($houseList);                
-//            }
-
-//                $SurveyIds = $this->Survey->find('list',array('fields' => 'id','conditions' => 
-//                    array('Survey.campaign_id' => $this->current_campaign_detail['Campaign']['id'],
-//                        'Survey.house_id' => $houseIds)));    
-
-//            $this->Survey->unbindModel(array('belongsTo' => 
-//                array('Campaign','MoLog'),
-//                'hasOne' => array('Feedback')));
-
         $Surveys = $this->Survey->find('all', array(
             'fields' => array('id','location_id','area_id', 'region_id',
                 'promoter_id','team_id','name','occupation_id','age',
                 'is_female','mobile','recharge_amount','monthly_internet_usage',
                 'is_smart_phone','mobile_brand_id','is_3g','package_id',
-                'date_time', 'Promoter.name','Promoter.code','Team.name',
+                'created', 'Promoter.name','Promoter.code','Team.name',
                 'MobileBrand.title','Occupation.title','Package.title',
                 'Location.title','Location.area_id'),
             'conditions' => $this->Survey->set_conditions($locationsIds, $this->request->data),

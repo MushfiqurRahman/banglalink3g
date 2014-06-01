@@ -124,16 +124,22 @@ class Location extends AppModel {
                     'fields' => array('id'),
                     'conditions' => array('Location.area_id' => $data['area_id']),
                     'recursive' => -1));
+                
+//                $this->log(print_r($ids, true),'error');
             }else if(!empty($data['region_id'])){
                 $areaIds = $this->Area->find('list',array(
                     'fields' => array('Area.id'),
                     'conditions' => array('Area.region_id' => $data['region_id']),
-                    'recursive' => -1));               
-                //$this->log(print_r($areaIds, true),'error');
+                    'recursive' => -1));   
                 
                 $ids = $this->find('list', array(
                     'fields' => array('id'),
                     'conditions' => array('Location.area_id' => $areaIds),
+                    'recursive' => -1));
+            }else if( !empty($data['team_id']) ){
+                $ids = $this->find('list', array(
+                    'fields' => array('id'),
+                    'conditions' => array('Location.team_id' => $data['team_id']),
                     'recursive' => -1));
             }else{
                 $ids = $this->find('list', array(
@@ -141,7 +147,6 @@ class Location extends AppModel {
                     'recursive' => -1
                 ));
             }
-            //$this->log(print_r($ids, true),'error');
             return $ids;
         }
 

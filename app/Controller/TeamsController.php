@@ -95,4 +95,27 @@ class TeamsController extends AppController {
 		$this->Session->setFlash(__('Team was not deleted'));
 		$this->redirect(array('action' => 'index'));
 	}
+        
+        /**
+         * In the dashboard page it's essential
+         * @return type
+         */
+        public function ajax_team_list(){
+            $this->autoRender = $this->layout = false;            
+            if( isset($_POST['area_id']) && !empty($_POST['area_id']) && $_POST['area_id'] != 'All' ){
+                $this->loadModel('Location');
+                $conditions = array('area_id' => $_POST['area_id']);
+                $teamIds = $this->Location->find('list', array(
+                    'fields' => array('team_id'),
+                    'conditions' => $conditions));
+                
+                $this->log(print_r($teamIds, true),'error');
+                
+                $teams = $this->Team->find('list', array(
+                    'conditions' => array('Team.id' => $teamIds)
+                ));
+                echo json_encode($teams);
+            }
+            return;            
+        }
 }

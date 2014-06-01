@@ -24,12 +24,23 @@
             <div class="control-group">
                 <label class="control-label">Select Location</label>
                 <div class="controls">
-                    <?php
+                    <?php                    
+                        if( isset($this->data['Survey']['region_id']) ){
+                            echo $this->Form->input('region_id',array('type' => 'hidden'));
+                        }
+                        if( isset($this->data['Survey']['area_id']) ){
+                            echo $this->Form->input('area_id', array('type' => 'hidden'));
+                        }
+                        if( isset($this->data['Survey']['team_id']) ){
+                            echo $this->Form->input('team_id', array('type' => 'hidden'));
+                        }
+                        $selectedLocationId = isset($this->data['Survey']['location_id']) ? $this->data['Survey']['location_id']:'';
                         echo $this->Form->input('location_id', array(
                             'type' => 'select',
                             'options' => $locations,
                             'class' => 'span6 m-wrap',
                             'empty' => 'Select Location',
+                            'selected' => $selectedLocationId,
                             'label' => false
                         ));
                     ?>
@@ -39,9 +50,8 @@
             <div class="control-group">
                 <label class="control-label" for="datepicker">Select Date Range</label>
                 <div class="controls">
-                        <input type="text" id="startDate" name="data[Survey][start_date]" placeholder="..." class="span3">
-
-                        <input type="text" id="endDate" name="data[Survey][end_date]" placeholder="..." class="span3">
+                        <input type="text" id="startDate" name="data[Survey][start_date]" placeholder="..." class="span3" value="<?php echo isset($this->data['Survey']['start_date'])?$this->data['Survey']['start_date']:'';?>">
+                        <input type="text" id="endDate" name="data[Survey][end_date]" placeholder="..." class="span3" value="<?php echo isset($this->data['Survey']['end_date'])?$this->data['Survey']['end_date']:'';?>">
                 </div>
             </div>
 
@@ -98,32 +108,35 @@
                         
                         $url_params = array();
 
-                        if( isset($this->data['start_date']) ){
-                            $url_params['start_date'] = $this->data['start_date'];
+                        if( isset($this->data['Survey']['start_date']) ){
+                            $url_params['start_date'] = $this->data['Survey']['start_date'];
                         }
-                        if( isset($this->data['end_date']) ){
-                            $url_params['end_date'] = $this->data['end_date'];
+                        if( isset($this->data['Survey']['end_date']) ){
+                            $url_params['end_date'] = $this->data['Survey']['end_date'];
                         }
-                        if( isset($this->data['Region']['id']) && $this->data['Region']['id']){
-                            $url_params['region_id'] = $this->data['Region']['id'];
+                        if( isset($this->data['Survey']['region_id']) && $this->data['Survey']['region_id']){
+                            $url_params['region_id'] = $this->data['Survey']['region_id'];
                         }
-                        if( isset($this->data['Area']['id']) && $this->data['Area']['id']){
-                            $url_params['area_id'] = $this->data['Area']['id'];
+                        if( isset($this->data['Survey']['area_id']) && $this->data['Survey']['area_id']){
+                            $url_params['area_id'] = $this->data['Survey']['area_id'];
                         }
-                        if( isset($this->data['House']['id']) && $this->data['House']['id']){
-                            $url_params['house_id'] = $this->data['House']['id'];
+                        if( isset($this->data['Survey']['team_id']) && $this->data['Survey']['team_id']){
+                            $url_params['team_id'] = $this->data['Survey']['team_id'];
                         }
-                        if( isset($this->data['occupation_id']) ){
-                            $url_params['occupation_id'] = $this->data['occupation_id'];
+                        if( isset($this->data['Survey']['location_id']) && $this->data['Survey']['location_id']){
+                            $url_params['location_id'] = $this->data['Survey']['location_id'];
                         }
-                        if( isset($this->data['age_limit']) ){
-                            $url_params['age_limit'] = $this->data['age_limit'];
+                        if( isset($this->data['Survey']['occupation_id']) ){
+                            $url_params['occupation_id'] = $this->data['Survey']['occupation_id'];
                         }
-            //            if( isset($this->data['adc']) ){
-            //                $url_params['adc'] = $this->data['adc'];
-            //            }
-                        if( isset($this->data['brand_id']) ){
-                            $url_params['brand_id'] = $this->data['brand_id'];
+                        if( isset($this->data['Survey']['age_limit']) ){
+                            $url_params['age_limit'] = $this->data['Survey']['age_limit'];
+                        }
+                        if( isset($this->data['Survey']['package_id']) ){
+                            $url_params['package_id'] = $this->data['Survey']['package_id'];
+                        }
+                        if( isset($this->data['Survey']['is_3g']) ){
+                            $url_params['is_3g'] = $this->data['Survey']['is_3g'];
                         }
                         $this->Paginator->options(array('url' => $url_params));  
                     ?>
@@ -216,7 +229,7 @@
                                             <td><?php echo $survey['MobileBrand']['title'];?></td>
                                             <td class="center"><?php echo $survey['Survey']['is_3g']==true ? 'Yes': 'No';?></td>                                            
                                             <td><?php echo $survey['Package']['title'];?></td>                                            
-                                            <td><?php echo $survey['Survey']['date_time'];?></td>
+                                            <td><?php echo $survey['Survey']['created'];?></td>
                                         </tr>
                                 <?php                                
                                         }
@@ -243,6 +256,17 @@
 
                         <br />
                         <?php echo $this->Form->create('Survey', array('type' => 'post','action' => 'export_report'))?>
+                        <input type="hidden" name="data[Survey][region_id]" value="<?php echo isset($this->data['Survey']['region_id']) ? $this->data['Survey']['region_id'] : '';?>"/>
+                        <input type="hidden" name="data[Survey][area_id]" value="<?php echo isset($this->data['Survey']['area_id']) ? $this->data['Survey']['area_id'] : '';?>"/>
+                        <input type="hidden" name="data[Survey][team_id]" value="<?php echo isset($this->data['Survey']['team_id']) ? $this->data['Survey']['team_id'] : '';?>"/>
+                        <input type="hidden" name="data[Survey][team_id]" value="<?php echo isset($this->data['Survey']['location_id']) ? $this->data['Survey']['location_id'] : '';?>"/>
+                        <input name="data[Survey][start_date]" type="hidden" value="<?php echo isset($this->data['Survey']['start_date']) ? $this->data['Survey']['start_date'] : '';?>" />
+                        <input name="data[Survey][end_date]" type="hidden" value="<?php echo isset($this->data['Survey']['end_date']) ? $this->data['Survey']['end_date'] : '';?>" />   
+<!--                        <input type="hidden" name="adc" value="<?php //echo isset($this->data['adc']) ? $this->data['adc']: '';?>"/>-->
+                        <input type="hidden" name="data[Survey][package_id]" value="<?php echo isset($this->data['Survey']['package_id']) ? $this->data['Survey']['package_id']: '';?>"/>
+                        <input type="hidden" name="data[Survey][age]" value="<?php echo isset($this->data['Survey']['age']) ? $this->data['Survey']['age']: 0;?>"/>
+                        <input type="hidden" name="data[Survey][occupation_id]" value="<?php echo isset($this->data['Survey']['occupation_id']) ? $this->data['Survey']['occupation_id']: '';?>"/>                        
+                        <input type="hidden" name="data[Survey][is_3g]" value="<?php echo isset($this->data['Survey']['is_3g']) ? $this->data['Survey']['is_3g']: '';?>"/>                        
                         <button type="submit" class="btn btn-inverse"> Export to Excel</button>
                         <?php echo $this->Form->end();?>
                 </div>

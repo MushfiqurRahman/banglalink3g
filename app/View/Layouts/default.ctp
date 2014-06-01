@@ -48,9 +48,9 @@
 	?>
         <script>
 	$(function() {
-		$( "#startDate" ).datepicker();
-		$( "#endDate" ).datepicker();
-	});
+            $("#startDate").datepicker({ dateFormat: "yy-mm-dd" });
+            $("#endDate").datepicker({ dateFormat: "yy-mm-dd" });
+        });
 	</script>
 </head>
 <body>
