@@ -102,5 +102,49 @@ class Promoter extends AppModel {
 			'counterQuery' => ''
 		)
 	);
+        
+        public function getPromoterIds($data = null){
+            $ids = array();
+            if( !empty($data['promoter_id']) ){
+                $ids[] = $data['promoter_id'];
+            }else if( !empty($data['area_id']) ){
+                $teamIds = $this->Team->Location->find('list', array(
+                    'fields' => array('team_id'),
+                    'conditions' => array('Location.area_id' => $data['area_id']),
+                    'recursive' => -1));
+                
+                $ids = $this->find('list', array(
+                    'conditions' => array('team_id' => $teamIds)
+                ));
+                
+//                $this->log(print_r($ids, true),'error');
+            }else if(!empty($data['region_id'])){
+                $areaIds = $this->Team->Location->Area->find('list',array(
+                    'fields' => array('Area.id'),
+                    'conditions' => array('Area.region_id' => $data['region_id']),
+                    'recursive' => -1));   
+                
+                $teamIds = $this->Team->Location->find('list', array(
+                    'fields' => array('team_id'),
+                    'conditions' => array('Location.area_id' => $areaIds),
+                    'recursive' => -1));
+                
+                $ids = $this->find('list', array(
+                    'fields' => array('id'),
+                    'conditions' => array('Promoter.team_id' => $teamIds),
+                    'recursive' => -1));
+            }else if( !empty($data['team_id']) ){
+                $ids = $this->find('list', array(
+                    'fields' => array('id'),
+                    'conditions' => array('Promoter.team_id' => $data['team_id']),
+                    'recursive' => -1));
+            }else{
+                $ids = $this->find('list', array(
+                    'fields' => array('id'),
+                    'recursive' => -1
+                ));
+            }
+            return $ids;
+        }
 
 }

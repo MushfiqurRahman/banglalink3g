@@ -24,10 +24,11 @@ class SurveysController extends AppController {
         $this->_set_request_data_from_params();
                 //pr($this->request->data);//exit;        
         $locationsIds = $this->Survey->Location->getLocationIds($this->request->data['Survey']);
+        $promoterIds = $this->Survey->Promoter->getPromoterIds($this->request->data['Survey']);
         
         //pr($locationsIds);
         
-        $this->_initialise_form_values($locationsIds);
+        $this->_initialise_form_values($locationsIds, $promoterIds);
         
         $this->Survey->Behaviors->load('Containable');
 
@@ -86,7 +87,10 @@ class SurveysController extends AppController {
     /**
      * For the filtering form
      */
-    protected function _initialise_form_values($locationIds = array()){
+    protected function _initialise_form_values($locationIds = array(), $promoterIds = array()){
+        $this->set('promoters', $this->Survey->Promoter->find('list', array(
+            'conditions' => array('Promoter.id' => $promoterIds)
+        )));
         $this->set('locations', $this->Survey->Location->find('list', array(
             'conditions' => array('Location.id' => $locationIds),
         )));

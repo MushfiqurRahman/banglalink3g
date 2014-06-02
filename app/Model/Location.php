@@ -149,5 +149,4 @@ class Location extends AppModel {
             }
             return $ids;
         }
-
 }
