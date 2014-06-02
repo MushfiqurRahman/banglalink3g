@@ -24,7 +24,8 @@
             <div class="control-group">
                 <label class="control-label">Select BP</label>
                 <div class="controls">
-                    <?php                    
+                    <?php          
+                    //pr($promoters);exit;
                         $selectedPromoterId = isset($this->data['Survey']['promoter_id']) ? $this->data['Survey']['promoter_id']:'';
                         echo $this->Form->input('promoter_id', array(
                             'type' => 'select',

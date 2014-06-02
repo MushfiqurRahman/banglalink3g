@@ -135,7 +135,7 @@ class ApiController extends AppController {
     public function receive_survey_data(){
         $this->autoLayout = $this->autoRender = false;
         $this->layout = false;
-        $this->log(print_r($this->request->data, true),'error');
+//        $this->log(print_r($this->request->data, true),'error');
         
         $response['success'] = true;
             

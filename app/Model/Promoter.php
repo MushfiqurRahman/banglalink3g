@@ -111,18 +111,18 @@ class Promoter extends AppModel {
                 $teamIds = $this->Team->Location->find('list', array(
                     'fields' => array('team_id'),
                     'conditions' => array('Location.area_id' => $data['area_id']),
+                    'group' => 'team_id',
                     'recursive' => -1));
                 
                 $ids = $this->find('list', array(
-                    'conditions' => array('team_id' => $teamIds)
+                    'fields' => array('Promoter.id'),
+                    'conditions' => array('Promoter.team_id' => $teamIds)
                 ));
-                
-//                $this->log(print_r($ids, true),'error');
             }else if(!empty($data['region_id'])){
                 $areaIds = $this->Team->Location->Area->find('list',array(
                     'fields' => array('Area.id'),
                     'conditions' => array('Area.region_id' => $data['region_id']),
-                    'recursive' => -1));   
+                    'recursive' => -1));
                 
                 $teamIds = $this->Team->Location->find('list', array(
                     'fields' => array('team_id'),

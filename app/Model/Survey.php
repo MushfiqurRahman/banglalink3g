@@ -269,7 +269,11 @@ class Survey extends AppModel {
             
             if( $locationIds ){
                 $conditions[]['Survey.location_id'] = $locationIds;                
-            }            
+            }
+            
+            if( isset($data['Survey']['promoter_id']) && !empty($data['Survey']['promoter_id']) ){
+                $conditions[]['Survey.promoter_id'] = $data['Survey']['promoter_id'];
+            }
             if( isset($data['Survey']['start_date']) && !empty($data['Survey']['start_date']) ){
                 $conditions[]['DATE(Survey.created) >='] = $data['Survey']['start_date'];
             }
@@ -392,5 +396,30 @@ class Survey extends AppModel {
                 $i++;
             }
             return $formatted;
+        }
+        
+        /**
+         * For the pi chart
+         */
+        public function byTeamContribution(){
+            $teams = $this->Team->find('list');
+            $contributions = array();
+            $totalCount = $this->find('count');
+            //$this->log('total count:'.$totalCount, 'error');
+            foreach($teams as $k => $tm){
+                $temps = $this->find('all', array(
+                    'conditions' => array(
+                        'Survey.team_id' => $k
+                    )
+                ));
+                $teamCount = count($temps);
+                if( $totalCount>0 ){
+                    $contributions[$tm] = round(($teamCount*100/$totalCount), 2);
+                }else{
+                    $contributions[$tm] = round((100/(count($teams))), 2);
+                }
+            }
+//            $this->log(print_r($contributions,true),'error');
+            return $contributions;
         }
 }

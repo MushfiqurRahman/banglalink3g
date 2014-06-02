@@ -109,7 +109,7 @@ class TeamsController extends AppController {
                     'fields' => array('team_id'),
                     'conditions' => $conditions));
                 
-                $this->log(print_r($teamIds, true),'error');
+//                $this->log(print_r($teamIds, true),'error');
                 
                 $teams = $this->Team->find('list', array(
                     'conditions' => array('Team.id' => $teamIds)

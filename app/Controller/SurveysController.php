@@ -13,6 +13,7 @@ class SurveysController extends AppController {
         $this->set('pack3gUser', $this->Survey->parcent3gPackUser());
         $this->set('smartPhoneUser', $this->Survey->parcentSmartPhoneUser());
         $this->set('todayFbTotal', $this->Survey->getTodaysFbTotal());
+        $this->set('teamContributions', $this->Survey->byTeamContribution());
     }
     
     public function dashboard(){
@@ -60,6 +61,9 @@ class SurveysController extends AppController {
             }
             if( isset($this->request->params['named']['team_id']) ){
                 $this->request->data['Survey']['team_id'] = $this->request->params['named']['team_id'];
+            }
+            if( isset($this->request->params['named']['promoter_id']) ){
+                $this->request->data['Survey']['promoter_id'] = $this->request->params['named']['promoter_id'];
             }
             if( isset($this->request->params['named']['location_id']) ){
                 $this->request->data['Survey']['location_id'] = $this->request->params['named']['location_id'];
