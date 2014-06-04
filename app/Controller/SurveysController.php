@@ -8,16 +8,16 @@ App::uses('AppController', 'Controller');
 class SurveysController extends AppController {
     
     public function beforeFilter() {
-        parent::beforeFilter();
+        parent::beforeFilter();        
+    }
+    
+    public function dashboard(){
+        $this->loadModel('Region');
         $this->set('totalFb', $this->Survey->getTotalFb());
         $this->set('pack3gUser', $this->Survey->parcent3gPackUser());
         $this->set('smartPhoneUser', $this->Survey->parcentSmartPhoneUser());
         $this->set('todayFbTotal', $this->Survey->getTodaysFbTotal());
         $this->set('teamContributions', $this->Survey->byTeamContribution());
-    }
-    
-    public function dashboard(){
-        $this->loadModel('Region');
         $this->set('regions', $this->Region->find('list'));
     }
     
@@ -42,6 +42,11 @@ class SurveysController extends AppController {
         $Surveys = $this->paginate();
         //pr($Surveys);exit;
         $this->set('Surveys', $Surveys);
+        $this->set('totalFb', $this->Survey->getTotalFb($this->Survey->set_conditions($locationsIds,$this->request->data)));
+        $this->set('pack3gUser', $this->Survey->parcent3gPackUser($this->Survey->set_conditions($locationsIds,$this->request->data)));
+        $this->set('smartPhoneUser', $this->Survey->parcentSmartPhoneUser($this->Survey->set_conditions($locationsIds,$this->request->data)));
+        $this->set('todayFbTotal', $this->Survey->getTodaysFbTotal($this->Survey->set_conditions($locationsIds,$this->request->data)));
+        
         if( !empty($this->request->query)){
             $this->set('data',$this->request->query);
         }

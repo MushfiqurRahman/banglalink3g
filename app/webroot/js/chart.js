@@ -18,7 +18,13 @@ jQuery(document).ready(function() {
 // Pie Chart (By Team Contribution)
 	$pie = $(".pie2");
 	if ($pie[0]) {
+//            var data = [
+//                
+//            ];
+            
+            
 		var data = [
+                    
 			{ label: "Team 1",  data: [[1,16]]},
 			{ label: "Team 2",  data: [[1,10]]},
 			{ label: "Team 3",  data: [[1,13]]},

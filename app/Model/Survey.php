@@ -288,9 +288,9 @@ class Survey extends AppModel {
             }
             if( isset($data['Survey']['age']) && !empty($data['Survey']['age']) ){
                 $limits = $this->_get_limits($data['Survey']['age']);
-                $conditions[]['age >='] = $limits['lower'];
+                $conditions[]['Survey.age >='] = $limits['lower'];
                 if( isset($limits['upper']) ){
-                    $conditions[]['age <='] = $limits['upper'];
+                    $conditions[]['Survey.age <='] = $limits['upper'];
                 }                
             }            
             if( isset($data['Survey']['is_3g']) && !empty($data['Survey']['is_3g']) ){
@@ -314,41 +314,115 @@ class Survey extends AppModel {
             return $res;
         }
         
-        public function getTotalFb(){
-            return $this->find('count');
-        }
-        
-        public function parcent3gPackUser(){
-            $total = $this->getTotalFb();
-            if( $total>0 ){
-                $total3GUser = $this->find('count', array('conditions' => array(
-                    'Survey.is_3g' => 1
-                )));
-                $parcent = round((100*$total3GUser)/$total, 2);                
-                return $parcent;
-            }else{
-                return 0;
+        /**
+         * this is essential for info_box.ctp file. To show the statistics
+         * accurately. Since conditions array may miss the compulsory feidl
+         * for specific statical data.
+         * 
+         * @param type $conditions
+         * @param type $fieldName
+         * @return boolean
+         */
+        protected function _does_condition_exists($conditions = array(), $fieldName){
+            
+            foreach($conditions as $vals){
+                foreach( $vals as $k => $v){
+                    if($k==$fieldName) return true;
+                }
             }
+            return false;
         }
         
-        public function parcentSmartPhoneUser(){
-            $total = $this->getTotalFb();
-            if( $total>0 ){
-                $totalSmartPhoneUser = $this->find('count', array('conditions' => array(
-                    'Survey.is_smart_phone' => 1
-                )));
-                $parcent = round((100*$totalSmartPhoneUser)/$total, 2);
-                return $parcent;
+        public function getTotalFb( $conditions = array() ){
+            if( !empty($conditions) ){                
+                return $this->find('count', array(
+                    'conditions' => $conditions
+                ));
             }else{
-                return 0;
+                return $this->find('count');
             }
+            
         }
         
-        public function getTodaysFbTotal(){            
-            $todaysTotal = $this->find('count', array('conditions' => array(
-                'DATE(Survey.created)' => date('Y-m-d',time())
-            )));
-            return $todaysTotal;
+        public function parcent3gPackUser( $conditions = array() ){
+            if( !empty($conditions) ){
+                $total = $this->getTotalFb($conditions);
+                
+                if( $this->_does_condition_exists($conditions, 'Survey.is_3g')==false){
+                    $conditions[]['Survey.is_3g'] = 1;
+                }
+                //$this->log(print_r($conditions, true),'error');
+                if( $total>0 ){
+                    $total3GUser = $this->find('count', array('conditions' => $conditions));
+                    $parcent = round((100*$total3GUser)/$total, 2);                
+                    return $parcent;
+                }else{
+                    return 0;
+                }
+            }else{
+                $total = $this->getTotalFb();
+                if( $total>0 ){
+                    $total3GUser = $this->find('count', array('conditions' => array(
+                        'Survey.is_3g' => 1
+                    )));
+                    $parcent = round((100*$total3GUser)/$total, 2);                
+                    return $parcent;
+                }else{
+                    return 0;
+                }
+            }
+            
+        }
+        
+        public function parcentSmartPhoneUser( $conditions = array() ){
+            if( !empty($conditions) ){
+                $total = $this->getTotalFb($conditions);
+                
+                if( $this->_does_condition_exists($conditions, 'Survey.is_smart_phone')==false){
+                    $conditions[]['Survey.is_smart_phone'] = 1;
+                }
+                
+                if( $total>0 ){
+                    $totalSmartPhoneUser = $this->find('count', array(
+                        'conditions' => $conditions));
+                    $parcent = round((100*$totalSmartPhoneUser)/$total, 2);
+                    return $parcent;
+                }else{
+                    return 0;
+                }
+            }else{
+                $total = $this->getTotalFb();
+                if( $total>0 ){
+                    $totalSmartPhoneUser = $this->find('count', array('conditions' => array(
+                        'Survey.is_smart_phone' => 1
+                    )));
+                    $parcent = round((100*$totalSmartPhoneUser)/$total, 2);
+                    return $parcent;
+                }else{
+                    return 0;
+                }
+            }
+            
+        }
+        
+        public function getTodaysFbTotal( $conditions = array() ){            
+//                            $this->log(print_r($conditions, true),'error');
+            if( !empty($conditions) ){
+                if( $this->_does_condition_exists($conditions, 'DATE(Survey.created)')==false){
+                    $conditions[]['DATE(Survey.created)'] = date('Y-m-d',time());
+                }
+//                $this->log(print_r($conditions, true),'error');
+                $todaysTotal = $this->find('count', array(
+                    'conditions' => $conditions
+                ));
+                return $todaysTotal;
+            }else{
+                $todaysTotal = $this->find('count', array('conditions' => array(
+                    'DATE(Survey.created)' => date('Y-m-d',time())
+                )));
+                return $todaysTotal;
+            }
+            
         }
         
         /**
