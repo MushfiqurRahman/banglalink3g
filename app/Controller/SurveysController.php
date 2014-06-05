@@ -17,7 +17,7 @@ class SurveysController extends AppController {
         $this->set('pack3gUser', $this->Survey->parcent3gPackUser());
         $this->set('smartPhoneUser', $this->Survey->parcentSmartPhoneUser());
         $this->set('todayFbTotal', $this->Survey->getTodaysFbTotal());
-        $this->set('teamContributions', $this->Survey->byTeamContribution());
+        $this->set('teamContributions', json_encode($this->Survey->byTeamContribution()));
         $this->set('regions', $this->Region->find('list'));
     }
     

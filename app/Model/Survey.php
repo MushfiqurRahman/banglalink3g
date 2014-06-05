@@ -493,7 +493,16 @@ class Survey extends AppModel {
                     $contributions[$tm] = round((100/(count($teams))), 2);
                 }
             }
+            
+            $response = array();
+            $i = 0;
+            foreach( $contributions as $k => $v){
+                $response[$i]['label'] = $k;
+                $response[$i]['data'] = $v;
+                $i++;
+            }
+            return $response;
 //            $this->log(print_r($contributions,true),'error');
-            return $contributions;
+//            return $contributions;
         }
 }

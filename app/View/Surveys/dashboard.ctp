@@ -1,4 +1,6 @@
-<?php echo $this->element('info_box');?>
+<?php echo $this->element('info_box');
+ 
+?>
 <!-- Dashboard: Content -->
 <div class="row-fluid">
 
@@ -139,5 +141,56 @@
                             }
                     });                
                 }
+                
+                	$pie = $(".pie2");
+	if ($pie[0]) {
+            var data = $.parseJSON('<?php echo $teamContributions;?>');
+	
+		$.plot($(".pie2"), data, 
+		{
+			colors: ['#88bbc8','#eb815c','#7fc18d','#cea0db','#bbd99b','#4992ff'], 
+			 
+			series: {
+				pie: { 
+					show: true,
+					radius: 1,
+					label: {
+						show: true,
+						radius: 1,
+						formatter: function(label, series){
+							return '<div style="font-size:8pt;text-align:center;padding:2px;color:white;">'+label+'<br/>'+Math.round(series.percent)+'%</div>';
+						},
+						background: { opacity: 0.8 }
+					}
+				}
+			},
+			legend: {
+				show: false
+			}
+		});
+	}
+	
+
+// Tooltip (bootstrap)
+// -------------------------------------------------------------------
+// URL: http://bootstrap.twitter.com
+// -------------------------------------------------------------------
+
+$("[rel='tooltip']").tooltip();
+
+$("[rel='tooltip']").each(function( index ) {
+  $(this).data('tooltip').options.placement = 'bottom';
+});
+
+// Chosen
+// -------------------------------------------------------------------
+// URL: http://harvesthq.github.io/chosen/
+// -------------------------------------------------------------------
+
+if ($("select")[0]){
+
+  $("select").chosen({disable_search_threshold: 10});
+
+};
 	});
 </script>
