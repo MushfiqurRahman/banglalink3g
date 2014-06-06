@@ -37,8 +37,9 @@ class SurveysController extends AppController {
             'contain' => $this->Survey->get_contain_array(),
             'conditions' => $this->Survey->set_conditions($locationsIds, $this->request->data),
             'order' => array('Survey.created' => 'DESC'),
-            'limit' => 4,
+            'limit' => 2,
         );
+//        $this->log(print_r($this->paginate['conditions'], true),'error');
         $Surveys = $this->paginate();
         //pr($Surveys);exit;
         $this->set('Surveys', $Surveys);
@@ -75,22 +76,25 @@ class SurveysController extends AppController {
             }            
             
             if( isset($this->request->params['named']['age']) ){
-                $this->request->data['age'] = $this->request->params['named']['age_limit'];
+                $this->request->data['Survey']['age'] = $this->request->params['named']['age'];
             }
             if( isset($this->request->params['named']['start_date']) ){
-                $this->request->data['start_date'] = $this->request->params['named']['start_date'];
+                $this->request->data['Survey']['start_date'] = $this->request->params['named']['start_date'];
             }
             if( isset($this->request->params['named']['end_date']) ){
-                $this->request->data['end_date'] = $this->request->params['named']['end_date'];
+                $this->request->data['Survey']['end_date'] = $this->request->params['named']['end_date'];
             }
             if( isset($this->request->params['named']['occupation_id']) ){
-                $this->request->data['occupation_id'] = $this->request->params['named']['occupation_id'];
+                $this->request->data['Survey']['occupation_id'] = $this->request->params['named']['occupation_id'];
+            }
+            if( isset($this->request->params['named']['package_id']) ){
+                $this->request->data['Survey']['package_id'] = $this->request->params['named']['package_id'];
             }
             
             if( isset($this->request->params['named']['is_3g']) ){
-                $this->request->data['Survey']['is_3g'] = $this->request->params['named']['is_3g']=='Yes'?1:0;
+                $this->request->data['Survey']['is_3g'] = $this->request->params['named']['is_3g'];
             }
-        } 
+        }        
     } 
     
     /**

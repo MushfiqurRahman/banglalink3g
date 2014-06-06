@@ -77,6 +77,7 @@
                 <label class="control-label" for="inputDate">Filter by</label>
                 <div class="controls">
                     <?php 
+                        $selectedAge = isset($this->data['Survey']['age']) ? $this->data['Survey']['age']:''; 
                         echo $this->Form->input('age', array(
                             'type' => 'select',
                             'label' => false,
@@ -85,13 +86,15 @@
                                 '15:20' => '15 - 20',
                                 '20:25' => '20 - 25',
                                 '25:30' => '25 - 30',
-                                '30:30' => '30+'
+                                '30:130' => '30+'
                             ),
                             'empty' => 'Select Age Group',
                             'class' => 'span3',
+                            'selected' => $selectedAge,
                             'div' => false
                         ));
 
+                        $selectedOccupationId = isset($this->data['Survey']['occupation_id']) ? $this->data['Survey']['occupation_id']:''; 
                         echo $this->Form->input('occupation_id', array(
                             'type' => 'select',
                             'options' => $occupations,
@@ -99,19 +102,23 @@
                             'empty' => 'Select Occupation',
                             'label' => false,
                             'class' => 'span3',
+                            'selected' => $selectedOccupationId,
                             'div' => false
                         ));
-
+                        
+                        $selectedIs3G = isset($this->data['Survey']['is_3g']) ? $this->data['Survey']['is_3g']:''; 
                         echo $this->Form->input('is_3g', array(
                             'type' => 'select',
-                            'options' => array('Yes' => 'Yes', 'No' => 'No'),
+                            'options' => array('1' => 'Yes', '0' => 'No'),
                             'class' => 'span6 m-wrap',
                             'empty' => 'Select 3g Pack Status',
                             'label' => false,
                             'class' => 'span3',
+                            'selected' => $selectedIs3G,
                             'div' => false
                         ));
 
+                        $selectedPackageId = isset($this->data['Survey']['package_id']) ? $this->data['Survey']['package_id']:''; 
                         echo $this->Form->input('package_id', array(
                             'type' => 'select',
                             'options' => $packages,
@@ -119,45 +126,47 @@
                             'empty' => 'Select Package',
                             'class' => 'span3',
                             'label' => false,
+                            'selected' => $selectedPackageId,
                             'div' => false
-                        ));
-                        
+                        ));                       
                         
                         $url_params = array();
 
-                        if( isset($this->data['Survey']['start_date']) ){
-                            $url_params['start_date'] = $this->data['Survey']['start_date'];
-                        }
-                        if( isset($this->data['Survey']['end_date']) ){
-                            $url_params['end_date'] = $this->data['Survey']['end_date'];
-                        }
-                        if( isset($this->data['Survey']['region_id']) && $this->data['Survey']['region_id']){
-                            $url_params['region_id'] = $this->data['Survey']['region_id'];
-                        }
-                        if( isset($this->data['Survey']['area_id']) && $this->data['Survey']['area_id']){
-                            $url_params['area_id'] = $this->data['Survey']['area_id'];
-                        }
-                        if( isset($this->data['Survey']['team_id']) && $this->data['Survey']['team_id']){
-                            $url_params['team_id'] = $this->data['Survey']['team_id'];
-                        }
-                        if( isset($this->data['Survey']['promoter_id']) && $this->data['Survey']['promoter_id']){
-                            $url_params['promoter_id'] = $this->data['Survey']['promoter_id'];
-                        }
-                        if( isset($this->data['Survey']['location_id']) && $this->data['Survey']['location_id']){
-                            $url_params['location_id'] = $this->data['Survey']['location_id'];
-                        }
-                        if( isset($this->data['Survey']['occupation_id']) ){
-                            $url_params['occupation_id'] = $this->data['Survey']['occupation_id'];
-                        }
-                        if( isset($this->data['Survey']['age_limit']) ){
-                            $url_params['age_limit'] = $this->data['Survey']['age_limit'];
-                        }
-                        if( isset($this->data['Survey']['package_id']) ){
-                            $url_params['package_id'] = $this->data['Survey']['package_id'];
-                        }
-                        if( isset($this->data['Survey']['is_3g']) ){
-                            $url_params['is_3g'] = $this->data['Survey']['is_3g'];
-                        }
+                        //if( isset($this->data['Survey']['start_date']) ){
+                            $url_params['start_date'] = isset($this->data['Survey']['start_date']) ? $this->data['Survey']['start_date']:'';
+                        //}
+                        //if( isset($this->data['Survey']['end_date']) ){
+                            $url_params['end_date'] = isset($this->data['Survey']['end_date']) ? $this->data['Survey']['end_date']: '';
+                        //}
+                        //if( isset($this->data['Survey']['region_id']) && $this->data['Survey']['region_id']){
+                            $url_params['region_id'] = isset($this->data['Survey']['region_id']) ? $this->data['Survey']['region_id']:'';
+                        //}
+                        //if( isset($this->data['Survey']['area_id']) && $this->data['Survey']['area_id']){
+                            $url_params['area_id'] = isset($this->data['Survey']['area_id']) ? $this->data['Survey']['area_id']:'';
+                        //}
+                        //if( isset($this->data['Survey']['team_id']) && $this->data['Survey']['team_id']){
+                            $url_params['team_id'] = isset($this->data['Survey']['team_id'])?$this->data['Survey']['team_id']:'';
+                        //}
+                        //if( isset($this->data['Survey']['promoter_id']) && $this->data['Survey']['promoter_id']){
+                            $url_params['promoter_id'] = isset($this->data['Survey']['promoter_id'])?$this->data['Survey']['promoter_id']:'';
+                        //}
+                        //if( isset($this->data['Survey']['location_id']) && $this->data['Survey']['location_id']){
+                            $url_params['location_id'] = isset($this->data['Survey']['location_id']) ? $this->data['Survey']['location_id']:'';
+                        //}
+                        //if( isset($this->data['Survey']['occupation_id']) ){
+                            $url_params['occupation_id'] = isset($this->data['Survey']['occupation_id']) ? $this->data['Survey']['occupation_id']:'';
+                        //}
+                        //if( isset($this->data['Survey']['age']) ){
+                            $url_params['age'] = isset($this->data['Survey']['age'])? $this->data['Survey']['age']:'';
+                        //}
+                        //if( isset($this->data['Survey']['package_id']) ){
+                            $url_params['package_id'] = isset($this->data['Survey']['package_id']) ? $this->data['Survey']['package_id']:'';
+                        //}
+                        //if( isset($this->data['Survey']['is_3g']) ){
+                            $url_params['is_3g'] = isset($this->data['Survey']['is_3g'])? $this->data['Survey']['is_3g']: '';
+//                        }else{
+//                            $url_params['is_3g'] = 'No';
+//                        }
                         $this->Paginator->options(array('url' => $url_params));  
                     ?>
                 </div>
@@ -287,7 +296,7 @@
                         <input type="hidden" name="data[Survey][package_id]" value="<?php echo isset($this->data['Survey']['package_id']) ? $this->data['Survey']['package_id']: '';?>"/>
                         <input type="hidden" name="data[Survey][age]" value="<?php echo isset($this->data['Survey']['age']) ? $this->data['Survey']['age']: 0;?>"/>
                         <input type="hidden" name="data[Survey][occupation_id]" value="<?php echo isset($this->data['Survey']['occupation_id']) ? $this->data['Survey']['occupation_id']: '';?>"/>                        
-                        <input type="hidden" name="data[Survey][is_3g]" value="<?php echo isset($this->data['Survey']['is_3g']) ? $this->data['Survey']['is_3g']: '';?>"/>                        
+                        <input type="hidden" name="data[Survey][is_3g]" value="<?php echo isset($this->data['Survey']['is_3g']) ? 'Yes': 'No';?>"/>                        
                         <button type="submit" class="btn btn-inverse"> Export to Excel</button>
                         <?php echo $this->Form->end();?>
                 </div>

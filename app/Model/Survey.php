@@ -270,7 +270,7 @@ class Survey extends AppModel {
             if( $locationIds ){
                 $conditions[]['Survey.location_id'] = $locationIds;                
             }
-            
+                        
             if( isset($data['Survey']['promoter_id']) && !empty($data['Survey']['promoter_id']) ){
                 $conditions[]['Survey.promoter_id'] = $data['Survey']['promoter_id'];
             }
@@ -294,7 +294,7 @@ class Survey extends AppModel {
                 }                
             }            
             if( isset($data['Survey']['is_3g']) && !empty($data['Survey']['is_3g']) ){
-                $conditions[]['Survey.is_3g'] = $data['Survey']['is_3g']=='Yes'? 1: 0;
+                $conditions[]['Survey.is_3g'] = $data['Survey']['is_3g'];
             }
             return $conditions;
         }
@@ -351,7 +351,7 @@ class Survey extends AppModel {
                 if( $this->_does_condition_exists($conditions, 'Survey.is_3g')==false){
                     $conditions[]['Survey.is_3g'] = 1;
                 }
-                //$this->log(print_r($conditions, true),'error');
+//                $this->log(print_r($conditions, true),'error');
                 if( $total>0 ){
                     $total3GUser = $this->find('count', array('conditions' => $conditions));
                     $parcent = round((100*$total3GUser)/$total, 2);                
@@ -381,7 +381,7 @@ class Survey extends AppModel {
                 if( $this->_does_condition_exists($conditions, 'Survey.is_smart_phone')==false){
                     $conditions[]['Survey.is_smart_phone'] = 1;
                 }
-                
+//                $this->log(print_r($conditions, true),'error');
                 if( $total>0 ){
                     $totalSmartPhoneUser = $this->find('count', array(
                         'conditions' => $conditions));
