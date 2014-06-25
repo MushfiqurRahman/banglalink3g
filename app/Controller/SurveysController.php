@@ -105,7 +105,8 @@ class SurveysController extends AppController {
      */
     protected function _initialise_form_values($locationIds = array(), $promoterIds = array()){
         $this->set('promoters', $this->Survey->Promoter->find('list', array(
-            'conditions' => array('Promoter.id' => $promoterIds)
+            'conditions' => array('Promoter.id' => $promoterIds),
+            'fields' => array('Promoter.id', 'Promoter.code')
         )));
         $this->set('locations', $this->Survey->Location->find('list', array(
             'conditions' => array('Location.id' => $locationIds),

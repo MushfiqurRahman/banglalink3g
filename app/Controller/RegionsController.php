@@ -278,7 +278,7 @@ class RegionsController extends AppController {
                     'conditions' => array('Region.id' => $regionIds)
                 ));
                 
-                $this->log(print_r($regions, true),'error');
+//                $this->log(print_r($regions, true),'error');
                 echo json_encode($regions);
             }
             return;            
