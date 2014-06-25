@@ -255,4 +255,32 @@ class RegionsController extends AppController {
                 return $this->Promoter->id;
             }
         }
+        
+        /**
+         * In the dashboard page it's essential
+         * @return type
+         */
+        public function ajax_region_list(){
+            $this->autoRender = $this->layout = false;            
+            if( isset($_POST['team_id']) && !empty($_POST['team_id']) && $_POST['team_id'] != 'All' ){
+                $this->loadModel('Location');
+                $conditions = array('team_id' => $_POST['team_id']);
+                $areaIds = $this->Location->find('list', array(
+                    'fields' => array('area_id'),
+                    'conditions' => $conditions));
+                
+                $regionIds = $this->Location->Area->find('list', array(
+                    'fields' => array('region_id'),
+                    'conditions' => array('id' => $areaIds)
+                ));
+                
+                $regions = $this->Location->Area->Region->find('list', array(
+                    'conditions' => array('Region.id' => $regionIds)
+                ));
+                
+                $this->log(print_r($regions, true),'error');
+                echo json_encode($regions);
+            }
+            return;            
+        }
 }

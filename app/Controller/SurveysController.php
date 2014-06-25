@@ -18,7 +18,10 @@ class SurveysController extends AppController {
         $this->set('smartPhoneUser', $this->Survey->parcentSmartPhoneUser());
         $this->set('todayFbTotal', $this->Survey->getTodaysFbTotal());
         $this->set('teamContributions', json_encode($this->Survey->byTeamContribution()));
-        $this->set('regions', $this->Region->find('list'));
+        
+        $this->set('teams', $this->Survey->Team->find('list'));
+        
+//        $this->set('regions', $this->Region->find('list'));
     }
     
     public function report(){
@@ -131,9 +134,10 @@ class SurveysController extends AppController {
                 'Location.title','Location.area_id'),
             'conditions' => $this->Survey->set_conditions($locationsIds, $this->request->data),
             'order' => array('Survey.created' => 'DESC'),      
-        ));                 
+        ));                
+//                $this->log(print_r($Surveys,true),'error');
         $Surveys = $this->Survey->format_for_export($Surveys);
-//        $this->log(print_r($Surveys,true),'error');
+
 //        pr($Surveys);exit;
         $this->set('surveys',$Surveys); 
     }

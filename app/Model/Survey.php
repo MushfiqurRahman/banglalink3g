@@ -293,8 +293,13 @@ class Survey extends AppModel {
                     $conditions[]['Survey.age <='] = $limits['upper'];
                 }                
             }            
-            if( isset($data['Survey']['is_3g']) && !empty($data['Survey']['is_3g']) ){
-                $conditions[]['Survey.is_3g'] = $data['Survey']['is_3g'];
+            if( isset($data['Survey']['is_3g'])){
+//                $this->log(print_r($data, true),'error');                
+                if( $data['Survey']['is_3g']== 1){
+                    $conditions[]['Survey.is_3g'] = 1;
+                }else if( strlen($data['Survey']['is_3g'])>0 ){
+                    $conditions[]['Survey.is_3g !=']  = '1';
+                }
             }
             return $conditions;
         }

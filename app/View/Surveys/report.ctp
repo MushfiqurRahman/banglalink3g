@@ -296,7 +296,7 @@
                         <input type="hidden" name="data[Survey][package_id]" value="<?php echo isset($this->data['Survey']['package_id']) ? $this->data['Survey']['package_id']: '';?>"/>
                         <input type="hidden" name="data[Survey][age]" value="<?php echo isset($this->data['Survey']['age']) ? $this->data['Survey']['age']: 0;?>"/>
                         <input type="hidden" name="data[Survey][occupation_id]" value="<?php echo isset($this->data['Survey']['occupation_id']) ? $this->data['Survey']['occupation_id']: '';?>"/>                        
-                        <input type="hidden" name="data[Survey][is_3g]" value="<?php echo isset($this->data['Survey']['is_3g']) ? 'Yes': 'No';?>"/>                        
+                        <input type="hidden" name="data[Survey][is_3g]" value="<?php echo isset($this->data['Survey']['is_3g']) ? $this->data['Survey']['is_3g']: '';?>"/>                        
                         <button type="submit" class="btn btn-inverse"> Export to Excel</button>
                         <?php echo $this->Form->end();?>
                 </div>

@@ -25,38 +25,42 @@
                         'action' => 'report', 'class' => 'form-horizontal'));?>
 <!--                    <form class="form-horizontal">-->
 
-                    <div class="control-group">
-                    <label class="control-label">Select Region</label>
-                    <div class="controls">
-                        <?php echo $this->Form->input('region_id', array(
-                            'type' => 'select', 'options' => $regions, 
-                            'class' => 'span6 m-wrap', 'id' => 'regionId',
-                            'empty'  => 'All Region', 'label' => false));?>
-
-                    </div>
-                    </div>
 
                     <div class="control-group">
-                    <label class="control-label">Select Area</label>
-                    <div class="controls">
-                        <?php echo $this->Form->input('area_id', array(
-                            'type' => 'select', 'options' => array(), 
-                            'class' => 'span6 m-wrap', 'id' => 'areaId',
-                            'empty'  => 'All Area', 'label' => false));?>
+                        <label class="control-label">Select Team</label>
+                        <div class="controls">
+                            <?php echo $this->Form->input('team_id', array(
+                                'type' => 'select', 'options' => $teams, 
+//                                'type' => 'select', 'options' => array(), 
+                                'class' => 'span6 m-wrap', 'id' => 'teamId',
+                                'empty'  => 'All Team', 'label' => false));?>
 
-                    </div>
+                        </div>
                     </div>
 
                     <div class="control-group">
-                    <label class="control-label">Select Team</label>
-                    <div class="controls">
-                        <?php echo $this->Form->input('team_id', array(
-                            'type' => 'select', 'options' => array(), 
-                            'class' => 'span6 m-wrap', 'id' => 'teamId',
-                            'empty'  => 'All Team', 'label' => false));?>
+                        <label class="control-label">Select Region</label>
+                        <div class="controls">
+                            <?php echo $this->Form->input('region_id', array(
+//                                'type' => 'select', 'options' => $regions, 
+                                'type' => 'select', 'options' => array(), 
+                                'class' => 'span6 m-wrap', 'id' => 'regionId',
+                                'empty'  => 'All Region', 'label' => false));?>
 
+                        </div>
                     </div>
+
+                    <div class="control-group">
+                        <label class="control-label">Select Area</label>
+                        <div class="controls">
+                            <?php echo $this->Form->input('area_id', array(
+                                'type' => 'select', 'options' => array(), 
+                                'class' => 'span6 m-wrap', 'id' => 'areaId',
+                                'empty'  => 'All Area', 'label' => false));?>
+
+                        </div>
                     </div>
+
 
                     <!-- Forms: Form Actions -->
                     <div class="form-actions">
@@ -98,13 +102,37 @@
 <script>
 	var base_url = '<?php echo Configure::read('base_url');?>';
 	$(document).ready(function(){	
+            
+                $("#teamId").change(function(e){
+			find_regions( $(this).val());
+		});
 		$("#regionId").change(function(e){
 			find_areas( $(this).val());
 		});
                 
-                $("#areaId").change(function(){                    
-                    find_teams( $(this).val());	
-                });
+//                $("#areaId").change(function(){                    
+//                    find_teams( $(this).val());	
+//                });
+                
+                function find_regions( teamId ){                   
+                    $.ajax({
+                            url: base_url+'regions/ajax_region_list',
+                            type: 'post',
+                            data: 'team_id='+teamId,
+                            success: function(response){                                
+                                    var regions = $.parseJSON(response);                                   
+                                    
+                                    $("#regionId").html('<select name="data[Survey][region_id]" id="regionId"><option value="">All Region</option></select>');
+                                    $("#areaId").html('<select name="data[Survey][area_id]" id="areaId"><option value="">All Area</option></select>');
+                                    
+                                    $.each(regions, function(ind,val){                                        
+                                            $('#regionId').append('<option value="'+ind+'">'+val+'</option>');
+                                    });
+                                    $("#regionId").trigger("chosen:updated");
+                                    $("#areaId").trigger("chosen:updated");
+                            }
+                    });                
+                }
 		
 		function find_areas( regionId ){                    
 			$.ajax({
@@ -115,7 +143,7 @@
 					var areas = $.parseJSON(response);
 					
                                         $("#areaId").html('<select name="data[Survey][area_id]" id="areaId"><option value="">All Area</option></select>');
-                                        $("#teamId").html('<select name="data[Survey][team_id]" id="teamId"><option value="">All Team</option></select>');
+                                        //$("#teamId").html('<select name="data[Survey][team_id]" id="teamId"><option value="">All Team</option></select>');
 					$.each(areas, function(ind,val){                                             
                                             $('#areaId').append('<option value="'+ind+'">'+val+'</option>');						                                                
 					});
@@ -124,23 +152,23 @@
 			});
 		}
                 
-                function find_teams( areaId){                   
-                    $.ajax({
-                            url: base_url+'teams/ajax_team_list',
-                            type: 'post',
-                            data: 'area_id='+areaId,
-                            success: function(response){                                
-                                    var teams = $.parseJSON(response);
-                                    
-                                    $("#teamId").html('<select name="data[Survey][team_id]" id="teamId"><option value="">All Team</option></select>');
-                                    $.each(teams, function(ind,val){                                        
-                                            $('#teamId').append('<option value="'+ind+'">'+val+'</option>');						
-                                            
-                                    });
-                                    $("#teamId").trigger("chosen:updated");
-                            }
-                    });                
-                }
+//                function find_teams( areaId){                   
+//                    $.ajax({
+//                            url: base_url+'teams/ajax_team_list',
+//                            type: 'post',
+//                            data: 'area_id='+areaId,
+//                            success: function(response){                                
+//                                    var teams = $.parseJSON(response);
+//                                    
+//                                    $("#teamId").html('<select name="data[Survey][team_id]" id="teamId"><option value="">All Team</option></select>');
+//                                    $.each(teams, function(ind,val){                                        
+//                                            $('#teamId').append('<option value="'+ind+'">'+val+'</option>');						
+//                                            
+//                                    });
+//                                    $("#teamId").trigger("chosen:updated");
+//                            }
+//                    });                
+//                }
                 
                 	$pie = $(".pie2");
 	if ($pie[0]) {
